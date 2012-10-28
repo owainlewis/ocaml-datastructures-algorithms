@@ -15,6 +15,10 @@ type 'a binary_tree =
   (* Empty leaf *)
   | Leaf
 
+(* This makes more sense, putting the value in the middle *)
+
+type 'a btree = Node of 'a btree * 'a * 'a btree | Leaf
+
 (* Inserts an element into a binary tree *)
 let rec insert element (tree : 'a binary_tree) : 'a binary_tree =
     match tree with
@@ -33,9 +37,15 @@ let make_binary_tree (l : 'a list) : 'a binary_tree =
     | x :: xs -> aux xs (insert x t)
   in aux (List.tl l) tree
 
+(* Min value is the last item in the left sub tree *)
+
+let rec min = function
+  | Leaf -> 0
+  | Node(v,l,_) -> v + (min l)
+
 (* Find the height of a binary tree using recursion *)
 let rec depth = function 
-    | Leaf x -> 0
+    | Leaf -> 0
     | Node(_,l,r) -> 1 + (max (depth l) (depth r))
 
 (* Tail recursive version *)
