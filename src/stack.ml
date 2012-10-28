@@ -12,6 +12,7 @@ module type STACK =
  
 module Stack = 
   struct
+    (* Type signature *)
     type 'a stack = 'a list
     exception EmptyStack
     let empty : 'a stack = []
@@ -19,6 +20,12 @@ module Stack =
       match l with
          [] -> true
        | _ -> false
-    let push item stack =
+    (* Push an item onto the stack *)
+    let push (item: 'a) (stack : 'a stack): 'a stack =
       item :: stack
+    (* Push many items util function TODO fixme *)
+    let pushMany lst stack =
+      match lst with
+        [] -> lst
+        | x::xs -> pushMany xs (push x)
   end
