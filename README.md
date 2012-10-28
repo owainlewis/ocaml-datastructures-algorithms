@@ -1,3 +1,3 @@
 # OCaml data structures and algorithms
 
-Random self study in OCaml
+Random self study in OCaml 

@@ -33,3 +33,9 @@ let make_binary_tree (l : 'a list) : 'a binary_tree =
     | x :: xs -> aux xs (insert x t)
   in aux (List.tl l) tree
 
+(* Binary tree traversal functions *)
+
+let rec inorder = function
+    Leaf -> []
+  | Node(root, left, right) -> (inorder left) @ (root :: (inorder right))
+
