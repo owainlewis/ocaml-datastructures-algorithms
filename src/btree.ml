@@ -37,6 +37,10 @@ let make_binary_tree (l : 'a list) : 'a binary_tree =
     | x :: xs -> aux xs (insert x t)
   in aux (List.tl l) tree
 
+let rec member e = function
+    Leaf -> false
+  | Node(v, l, r) -> 
+
 (* Min value is the last item in the left sub tree *)
 
 let rec min = function
