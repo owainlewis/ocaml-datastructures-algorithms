@@ -35,7 +35,35 @@ let make_binary_tree (l : 'a list) : 'a binary_tree =
 
 (* Binary tree traversal functions *)
 
+(* 
+
+         1
+        / \
+       /   \
+      /     \
+     2       3
+    / \     /
+   4   5   6
+  /       / \
+ 7       8   9
+
+preorder:    1 2 4 7 5 3 6 8 9
+inorder:     7 4 2 5 1 8 6 9 3
+postorder:   7 4 5 2 8 9 6 3 1
+level-order: 1 2 3 4 5 6 7 8 9
+
+*)
+
+let l = [1;2;4;7;5;3;6;8;9];;
+
+let sample_tree (l: 'a list) : 'a binary_tree =
+  make_binary_tree l
+
 let rec inorder = function
     Leaf -> []
-  | Node(root, left, right) -> (inorder left) @ (root :: (inorder right))
+  | Node(v,l,r) -> (inorder l) @ (v :: (inorder r))
+
+let rec preorder = function
+  Leaf -> []
+  | Node(v,l,r) -> v :: ((pre l) @ (pre r))
 
