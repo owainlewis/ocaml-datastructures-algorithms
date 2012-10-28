@@ -69,10 +69,8 @@ level-order: 1 2 3 4 5 6 7 8 9
 
 *)
 
-let l = [1;2;4;7;5;3;6;8;9];;
-
 let sample_tree =
-  make_binary_tree l
+  make_binary_tree [1;2;4;7;5;3;6;8;9]
 
 let rec inorder = function
     Leaf -> []
