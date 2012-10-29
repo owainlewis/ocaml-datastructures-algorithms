@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 # Directed Graph Algorithms 
 
 class Vertex:
