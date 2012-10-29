@@ -1,11 +1,21 @@
 (***************************************
 
- Binary Search Trees                 
+ Binary Search Trees 
+
+ - insert 
+ - member - boolean
+ - delete
+ - get
+ - height 
+ - min
+ - max               
 
 ***************************************)
 
 module BTree =
   struct
+    (* This makes more sense, putting the value in the middle *)
+    type 'a btree = Node of 'a btree * 'a * 'a btree | Leaf
   end
 
 (* insert delete inorder searc min max *)
@@ -14,10 +24,6 @@ type 'a binary_tree =
   Node of 'a * 'a binary_tree * 'a binary_tree 
   (* Empty leaf *)
   | Leaf
-
-(* This makes more sense, putting the value in the middle *)
-
-type 'a btree = Node of 'a btree * 'a * 'a btree | Leaf
 
 (* Inserts an element into a binary tree *)
 let rec insert element (tree : 'a binary_tree) : 'a binary_tree =
@@ -37,9 +43,10 @@ let make_binary_tree (l : 'a list) : 'a binary_tree =
     | x :: xs -> aux xs (insert x t)
   in aux (List.tl l) tree
 
+(* TODO finish *)
 let rec member e = function
     Leaf -> false
-  | Node(v, l, r) -> 
+  | Node(v, l, r) -> raise "Not implemented yet"
 
 (* Min value is the last item in the left sub tree *)
 
@@ -62,26 +69,14 @@ let depth_tail_rec t =
       aux depth accu in
   aux 0 [0, t]
 
-(* Binary tree traversal functions *)
-
-(* 
-
-         1
-        / \
-       /   \
-      /     \
-     2       3
-    / \     /
-   4   5   6
-  /       / \
- 7       8   9
+(*****************************
 
 preorder:    1 2 4 7 5 3 6 8 9
 inorder:     7 4 2 5 1 8 6 9 3
 postorder:   7 4 5 2 8 9 6 3 1
 level-order: 1 2 3 4 5 6 7 8 9
 
-*)
+*****************************)
 
 let sample_tree =
   make_binary_tree [1;2;4;7;5;3;6;8;9]
