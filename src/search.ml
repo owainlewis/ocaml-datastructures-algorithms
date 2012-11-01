@@ -2,7 +2,7 @@
 
 let sample = [|1;2;3;4;5;6;7;8;9|];;
 
-let rec linear_search a value =
+let rec linear_search (a : 'a list) (value: 'a) =
   match a with
     | [] -> false
     | h::t -> if value == h then true
@@ -10,7 +10,7 @@ let rec linear_search a value =
 
 (** Binary search for array index value *)
 
-let binary_search a value =
+let binary_search (a : 'a array) (value : 'a) =
   let rec aux min max = 
     if min = max then
       if a.(min) = value then
@@ -26,5 +26,5 @@ let binary_search a value =
           aux (mid_point + 1) max
         else mid_point
   in 
-  aux 0 (Array.length a);;
+  aux 0 (Array.length a)
 
