@@ -41,6 +41,8 @@ class BinarySearchTree(object):
             return self.right.search(value, self)
         else:
             return True # value found
+
+    def delete(self, node): pass
             
     def min_value(self, node): pass
  
