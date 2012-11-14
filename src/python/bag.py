@@ -24,7 +24,6 @@ class BagADT(object):
         assert self.contains(item)
         return self._items.pop(self._items.index(item))
 
-
 class TestBagADT(unittest.TestCase):
 
     def setUp(self):
