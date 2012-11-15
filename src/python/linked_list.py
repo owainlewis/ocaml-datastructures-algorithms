@@ -6,6 +6,9 @@ class Node(object):
         self.data = data;
         self.next = nextNode;
 
+class DoubleLinkedList():
+    pass
+
 class LinkedList():
 
     """ List ADT """
@@ -13,6 +16,17 @@ class LinkedList():
     def __init__(self):
         self.head = None
         self.tail = None
+        self.length = 0
+
+    def __str__(self):
+        return "%s" % self.head.data
+
+    def add_head(self, data): 
+        """ Just add an element to the start (easiest way) """
+        node = Node(data) 
+        node.next = self.head 
+        self.head = node 
+        self.length += 1 
 
     def _add(self, node, data):
         """ Auxilary function that inserts into a specific node """
