@@ -1,8 +1,10 @@
 (* Graph algorithms *)
 
-type Vertex = int
-type Graph = (vertex * vertex list) list
+type 'a graph = { nodes : 'a list;  edges : ('a * 'a) list }
 
-let graph = [(1, [2, 4]), (2, [3]), (3, []), 
-            (4, [3, 6]), (5, [4, 8]), (6, [5, 8]), 
-            (7, []), (8, []), (9, [8])]
+let digraph =
+  { nodes = [1;2;3;4];
+    edges = [(1,2); (2,4); (4,2); (4,1)] }
+
+
+
