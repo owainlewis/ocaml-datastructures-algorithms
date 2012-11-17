@@ -30,12 +30,30 @@ let build values =
     | x :: xs -> aux xs (insert x tree) in
   aux values 
 
-let rec find v = function
+let rec member v = function
   | Leaf -> false
   | Node(l, x, r) ->
     if v == x then true
-    else if v < x then (find v l)
-    else (find v r)
+    else if v < x then (member v l)
+    else (member v r)
+
+let min_value = function
+  | Leaf -> failwith "Empty tree"
+  | Node(l, x, _) ->
+    let rec aux t m =
+      match t with
+      | Leaf -> m
+      | Node(l, x, r) -> aux l x
+    in aux l x 
+
+let max_value = function
+  | Leaf -> failwith "Empty tree"
+  | Node(_, x, r) ->
+    let rec aux t m =
+      match t with
+      | Leaf -> m
+      | Node(_, x, r) -> aux r x
+    in aux r x
 
 (* 
  * let test_tree = build [1;2;3;4;5]
