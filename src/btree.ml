@@ -37,6 +37,7 @@ let rec member v = function
     else if v < x then (member v l)
     else (member v r)
 
+(* Min value is the last item in the left sub tree *)
 let min_value = function
   | Leaf -> failwith "Empty tree"
   | Node(l, x, _) ->
@@ -46,6 +47,7 @@ let min_value = function
       | Node(l, x, r) -> aux l x
     in aux l x 
 
+(* Max value is the last item in the right sub tree *)
 let max_value = function
   | Leaf -> failwith "Empty tree"
   | Node(_, x, r) ->
@@ -92,17 +94,6 @@ let make_binary_tree (l : 'a list) : 'a binary_tree =
     |  [] -> t
     | x :: xs -> aux xs (insert x t)
   in aux (List.tl l) tree
-
-(* TODO finish *)
-let rec member e = function
-    Leaf -> false
-  | Node(v, l, r) -> raise "Not implemented yet"
-
-(* Min value is the last item in the left sub tree *)
-
-let rec min = function
-  | Leaf -> 0
-  | Node(v,l,_) -> v + (min l)
 
 (* Find the height of a binary tree using recursion *)
 let rec depth = function 
