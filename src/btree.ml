@@ -8,14 +8,46 @@
  - get
  - height 
  - min
- - max               
+ - max  
 
 ***************************************)
+
+type 'a tree =
+  | Leaf
+  | Node of 'a tree * 'a * 'a tree
+
+let rec insert v = function
+  | Leaf -> Node(Leaf, v, Leaf)
+  | Node(l, x, r) ->
+      if v < x then Node(insert v l, x, r)
+      else if v > x then Node(l, x, insert v r)
+      else Node(l, x, r)
+
+let build values =
+  let rec aux v tree =
+    match v with
+    | [] -> tree
+    | x :: xs -> aux xs (insert x tree) in
+  aux values 
+
+let rec find v = function
+  | Leaf -> false
+  | Node(l, x, r) ->
+    if v == x then true
+    else if v < x then (find v l)
+    else (find v r)
+
+(* 
+ * let test_tree = build [1;2;3;4;5]
+ * find 2 (test_tree Leaf) 
+ *)
 
 module BTree =
   struct
     (* This makes more sense, putting the value in the middle *)
-    type 'a btree = Node of 'a btree * 'a * 'a btree | Leaf
+    type 'a btree = 
+      | Node of 'a btree * 'a * 'a btree 
+      | Leaf
   end
 
 (* insert delete inorder searc min max *)
