@@ -27,7 +27,7 @@ module ImmutableStack =
       match l with
          [] -> true
        | _ -> false
-    (* Push an item onto the stack *)
+    (* Push an item onto he stack *)
     let push (item: 'a) (stack : 'a stack): 'a stack =
       item :: stack
     (* Push many items util function TODO fixme *)
