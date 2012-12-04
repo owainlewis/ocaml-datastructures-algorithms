@@ -1,6 +1,6 @@
 (***************************************
 
- Binary Search Trees 
+ Binary Search Trees
 
  - insert 
  - member - boolean
@@ -99,16 +99,6 @@ let make_binary_tree (l : 'a list) : 'a binary_tree =
 let rec depth = function 
     | Leaf -> 0
     | Node(_,l,r) -> 1 + (max (depth l) (depth r))
-
-(* Tail recursive version *)
-let depth_tail_rec t =
-  let rec aux depth = function
-    | [] -> depth
-    | (d, Leaf _) :: t -> aux (max d depth_tail_rec) t
-    | (d, Node (_,left,right)) :: t ->
-      let accu = (d+1, left) :: (d+1, right) :: t in
-      aux depth accu in
-  aux 0 [0, t]
 
 (*****************************
 
