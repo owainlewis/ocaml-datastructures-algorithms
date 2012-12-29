@@ -5,7 +5,7 @@ class Heap(object):
     def __init__(self, heap):
         self.heap = heap
 
-    # There n values are not zero indexed
+    # The n values are not zero indexed
     def getHeap(self, n):
         return self.heap[n-1]
 
