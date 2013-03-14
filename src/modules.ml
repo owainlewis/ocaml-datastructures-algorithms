@@ -1,12 +1,12 @@
 (* Random module kata *)
 
-module ModuleName = 
+module ModuleName =
 struct
 end
 
 (* Sigs *)
 
-module type PERSONSIG = 
+module type PERSONSIG =
 sig
 end
 

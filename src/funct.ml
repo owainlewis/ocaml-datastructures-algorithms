@@ -25,7 +25,7 @@ struct
   type elt = t
   type set = elt list
   let empty = []
-  let member x s = List.exists (equal x) s 
+  let member x s = List.exists (equal x) s
   let add    x s = if member x s then s else x :: s
   let find   x s = List.find (equal x) s
 end
@@ -36,7 +36,7 @@ end
 
 module StringNotCaseSensitive = struct
   type t = string
-  let equal str1 str2 = 
+  let equal str1 str2 =
     String.lowercase str1 = String.lowercase str2
 end
 

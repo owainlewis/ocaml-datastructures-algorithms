@@ -8,7 +8,7 @@ let range (x: int) (y: int) =
       | true  -> aux (l @ [item]) (increment item)
       | false -> l
   in aux [] x
-  
+
 let rand_int (limit: int) : int =
-  Random.int limit 
+  Random.int limit
 

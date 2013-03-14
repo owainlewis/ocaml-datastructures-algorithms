@@ -10,7 +10,7 @@ let rec linear_search (a : 'a list) (value: 'a) =
 (** Binary search for array index value *)
 
 let binary_search (a : 'a array) (value : 'a) =
-  let rec aux min max = 
+  let rec aux min max =
     if min = max then
       if a.(min) = value then
         min
@@ -24,6 +24,6 @@ let binary_search (a : 'a array) (value : 'a) =
         else if a.(mid_point) < value then
           aux (mid_point + 1) max
         else mid_point
-  in 
+  in
   aux 0 (Array.length a)
 

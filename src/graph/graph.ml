@@ -18,10 +18,10 @@ let contains l e =
   let rec aux l e =
     if l == e then
       true
-    else 
+    else
       aux List.tl e
   in aux l e
 
-(* TODO has_node? find connected nodes find edge *)  
+(* TODO has_node? find connected nodes find edge *)
 
 

@@ -2,13 +2,13 @@
 
  Binary Search Trees
 
- - insert 
+ - insert
  - member - boolean
  - delete
  - get
- - height 
+ - height
  - min
- - max  
+ - max
 
 ***************************************)
 
@@ -28,7 +28,7 @@ let build values =
     match v with
     | [] -> tree
     | x :: xs -> aux xs (insert x tree) in
-  aux values 
+  aux values
 
 let rec member v = function
   | Leaf -> false
@@ -45,7 +45,7 @@ let min_value = function
       match t with
       | Leaf -> m
       | Node(l, x, r) -> aux l x
-    in aux l x 
+    in aux l x
 
 (* Max value is the last item in the right sub tree *)
 let max_value = function
@@ -57,23 +57,23 @@ let max_value = function
       | Node(_, x, r) -> aux r x
     in aux r x
 
-(* 
+(*
  * let test_tree = build [1;2;3;4;5]
- * find 2 (test_tree Leaf) 
+ * find 2 (test_tree Leaf)
  *)
 
 module BTree =
   struct
     (* This makes more sense, putting the value in the middle *)
-    type 'a btree = 
-      | Node of 'a btree * 'a * 'a btree 
+    type 'a btree =
+      | Node of 'a btree * 'a * 'a btree
       | Leaf
   end
 
 (* insert delete inorder searc min max *)
 type 'a binary_tree =
   (* A root node and a left and right sub tree *)
-  Node of 'a * 'a binary_tree * 'a binary_tree 
+  Node of 'a * 'a binary_tree * 'a binary_tree
   (* Empty leaf *)
   | Leaf
 
@@ -96,7 +96,7 @@ let make_binary_tree (l : 'a list) : 'a binary_tree =
   in aux (List.tl l) tree
 
 (* Find the height of a binary tree using recursion *)
-let rec depth = function 
+let rec depth = function
     | Leaf -> 0
     | Node(_,l,r) -> 1 + (max (depth l) (depth r))
 

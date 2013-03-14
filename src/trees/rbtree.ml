@@ -1,19 +1,17 @@
-(* Red Black Tree 
+(* Red Black Tree
 
    CS 3110 Lecture 11
-   
+
    No red node has a red parent (alternatively a red node has black children).
 
-   Every path from the root to an empty node has the same number of black nodes: 
+   Every path from the root to an empty node has the same number of black nodes:
    the black height of the tree. Call this BH.
 
    The tree root is always black
 
 *)
 
-type color = 
-  | Red 
-  | Black
+type color = Red | Black
 
 type 'a rbtree =
   | Leaf
@@ -30,11 +28,11 @@ type 'a rbtree =
 a    b             b    c        b   c              c    d
 
 *)
-  
+
 (** Check if x is a member of this tree **)
 let rec member x = function
     Leaf -> false
-  | Node (_, value, left, right) ->      
+  | Node (_, value, left, right) ->
       if x == value then true
       else if x < value then member x left
       else member x right
@@ -48,7 +46,7 @@ let balance = function
   | a, b, c, d ->
       Node (a, b, c, d)
 
-(** Item insertion **) 
+(** Item insertion **)
 let insert x s =
   let rec ins = function
       Leaf -> Node (Red, x, Leaf, Leaf)
