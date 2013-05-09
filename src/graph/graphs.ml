@@ -105,7 +105,7 @@
     let map = ref VMap.empty in
     let ng = (ref 0, ref []) in
     match g with
-      (_, vl) ->
+:      (_, vl) ->
         match ng with
           (nc,nvl) ->
             (* Create new vertices and add to map from old
