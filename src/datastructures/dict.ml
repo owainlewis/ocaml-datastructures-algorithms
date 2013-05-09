@@ -1,4 +1,11 @@
-(* A dictionary is a mapping of string -> value of type alpha *)
+(******************************
+
+  dict.ml
+  A dictionary like data structure
+
+  Owain Lewis, 2013-05-09
+
+*******************************)
 
 module type DICTIONARY =
   sig
@@ -23,18 +30,14 @@ module AssocList : DICTIONARY =
   struct
     type k = string
     type 'a dict = (k * 'a) list
-
     let make(): 'a dict = []
-
     let insert(d: 'a dict) (key: k) (item: 'a) = (key, item) :: d
-
     exception NotFound
 
     let rec lookup(d: 'a dict) (k: string): 'a option =
       match d with
         [] -> None
-      | (k',x)::rest -> if k = k' then Some(x)
-                                  else lookup rest k
+      | (k',x)::rest -> if k = k' then Some(x) else lookup rest k
 
     let keys(d : 'a dict) =
       let rec aux(d, ks) =
