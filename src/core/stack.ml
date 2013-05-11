@@ -39,6 +39,7 @@ module IStack : ASTACK =
        | (x::xs) -> x)
 
     let map (f:'a -> 'b) (l:'a stack):'b stack = List.map f l
+
     let app (f:'a -> unit) (l:'a stack):unit = List.iter f l
   end
 

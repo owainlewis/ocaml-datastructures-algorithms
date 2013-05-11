@@ -14,7 +14,6 @@ module PrioQueue =
           else Node(p, e, insert right prio elt, left)
 
     exception Queue_is_empty
-
     let rec remove_top = function
         Empty -> raise Queue_is_empty
       | Node(prio, elt, left, Empty) -> left
