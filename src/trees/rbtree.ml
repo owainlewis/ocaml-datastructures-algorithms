@@ -60,3 +60,4 @@ let insert x s =
 	  Node (Black, y, a, b)
       | Leaf -> (* guaranteed to be nonempty *)
 	  raise (Failure "RBT insert failed with ins returning leaf")
+

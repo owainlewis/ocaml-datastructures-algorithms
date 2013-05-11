@@ -1,27 +1,39 @@
-(* Graph algorithms *)
+(*************************
 
-(* http://www.cs.cornell.edu/courses/cs3110/2009sp/lectures/lec22.html *)
+  Graph algorithms
 
-let graph = []
+  Owain Lewis 2013
 
-type 'a graph = { nodes : 'a list;  edges : ('a * 'a) list }
+******************************)
 
-let make_graph n e  =
-  { nodes = n;
-    edges = e }
+module type GRAPH =
+  sig
+    type 'a vertex
+    type graph
+    val empty : graph
+    val is_empty : graph -> bool
+    val add_vertex : graph -> 'a vertex -> graph
+  end
 
-let digraph =
-  { nodes = [1;2;3;4];
-    edges = [(1,2); (2,4); (4,2); (4,1)] }
+module UndirectedGraph : GRAPH =
+  struct
+    type 'a vertex = 'a
+    type graph = (int * int) list
 
-let contains l e =
-  let rec aux l e =
-    if l == e then
-      true
-    else
-      aux List.tl e
-  in aux l e
+    exception EmptyGraph
+    exception IllFormedGraph
 
-(* TODO has_node? find connected nodes find edge *)
+    let empty : graph = []
+
+    let is_empty (g: graph) : bool =
+      match g with
+        | [] -> true
+        | _ -> false
+
+    let add_vertex(g: graph) (v: int vertex) = [(v, [])] :: g
+end
+
+
+
 
 

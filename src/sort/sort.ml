@@ -1,9 +1,16 @@
-(* Sorting algorithms *)
+(*********************************
 
-(* INSERTION *)
+  Sorting algorithms
 
-(* Utility function to do the hard work *)
+  insertion
+  selection
+  merge
+  quick
+  shell
 
+********************************)
+
+(* Insertion sort *)
 let rec insert item list =
   match list with
   | [] -> [item]
@@ -20,8 +27,7 @@ let rec insertion_sort list =
 let insertion_sort_foldable lst =
   List.fold_right insert lst []
 
-(* MERGE *)
-
+(* Merge sort *)
 let rec split_at n xs =
   match n, xs with
     | 0, xs -> [], xs
@@ -40,8 +46,7 @@ let rec merge_sort cmp = function
       let xs, ys = split_at (List.length xs / 2) xs in
       List.merge cmp (merge_sort cmp xs) (merge_sort cmp ys)
 
-(* QUICK *)
-
+(* Quick sort *)
 let rec quicksort gt = function
   | [] -> []
   | x::xs ->

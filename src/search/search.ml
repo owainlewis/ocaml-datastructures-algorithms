@@ -1,14 +1,18 @@
-(* Search Algorithms *)
+(**************************************
 
-let sample = [|1;2;3;4;5;6;7;8;9|];;
+ Search Algorithms
+
+****************************************)
+
+let sample = [|1;2;3;4;5;6;7;8;9|]
 
 let rec linear_search (a : 'a list) (value: 'a) =
   match a with
     | [] -> false
-    | h::t -> if value == h then true else linear_search t value
+    | h::t -> if value == h then true
+                            else linear_search t value
 
-(** Binary search for array index value *)
-
+(* Binary search for array index value *)
 let binary_search (a : 'a array) (value : 'a) =
   let rec aux min max =
     if min = max then

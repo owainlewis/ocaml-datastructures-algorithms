@@ -42,16 +42,10 @@ end
 
 (* Implement the module *)
 
-(**
-
-We can use this set abstraction to create and manipulate sets of strings,
-with case insensitive comparison of elements in a set.
-
-**)
+(* We can use this set abstraction to create and manipulate sets of strings,
+   with case insensitive comparison of elements in a set. *)
 
 module SSet = MakeSet (StringNotCaseSensitive)
-
-let myset = SSet.add "Owain" SSet.empty;;
-
-SSet.member "owain" myset;; (* true *)
+let myset = SSet.add "Hello" SSet.empty;;
+SSet.member "Hello" myset;; (* true *)
 
