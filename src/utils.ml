@@ -12,3 +12,7 @@ let range (x: int) (y: int) =
 let rand_int (limit: int) : int =
   Random.int limit
 
+(* An int array of random size in range r *)
+let random_array size r =
+  Array.init size (fun _ -> Random.int r)
+
