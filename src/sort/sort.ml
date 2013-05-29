@@ -5,6 +5,7 @@
   insertion
   selection
   merge
+  bubble
   quick
   shell
 
@@ -52,4 +53,18 @@ let rec quicksort gt = function
   | x::xs ->
       let ys, zs = List.partition (gt x) xs in
       (quicksort gt ys) @ (x :: (quicksort gt zs))
+
+let n = [5;1;4;2;8]
+
+(* functional ish bubble sort using recursion *)
+let rec bubblesort l =
+  let rec aux = function
+    | x::y::xs -> if x > y then y :: aux(x::xs)
+                           else x :: aux(y::xs)
+    | x :: xs -> x :: aux xs
+    | [] -> []
+  in
+  let p = aux l in
+  if l <> p then bubblesort p (* do another sweep *)
+            else l
 

@@ -19,10 +19,7 @@ module UndirectedGraph : GRAPH =
   struct
     type 'a vertex = 'a
     type graph = (int * int) list
-
     exception EmptyGraph
-    exception IllFormedGraph
-
     let empty : graph = []
 
     let is_empty (g: graph) : bool =
