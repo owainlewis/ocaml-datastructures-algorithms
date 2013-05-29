@@ -11,6 +11,26 @@
 
 ********************************)
 
+module type SORT =
+sig
+  val bubble_sort : 'a list -> 'a list
+end
+
+(* Algorithms.bubble_sort n;; *)
+
+module Algorithms : SORT =
+struct
+  let rec bubble_sort l =
+    let rec aux = function
+      | x::y::xs -> if x > y then y :: aux(x::xs) else x :: aux(y::xs)
+      | x::xs -> x :: aux xs
+      | [] -> []
+    in
+    let p = aux l in
+    if l <> p then bubblesort p (* do another sweep *)
+              else l
+end
+
 (* Insertion sort *)
 let rec insert item list =
   match list with
@@ -55,16 +75,4 @@ let rec quicksort gt = function
       (quicksort gt ys) @ (x :: (quicksort gt zs))
 
 let n = [5;1;4;2;8]
-
-(* functional ish bubble sort using recursion *)
-let rec bubblesort l =
-  let rec aux = function
-    | x::y::xs -> if x > y then y :: aux(x::xs)
-                           else x :: aux(y::xs)
-    | x :: xs -> x :: aux xs
-    | [] -> []
-  in
-  let p = aux l in
-  if l <> p then bubblesort p (* do another sweep *)
-            else l
 
