@@ -29,8 +29,3 @@ module UndirectedGraph : GRAPH =
 
     let add_vertex(g: graph) (v: int vertex) = [(v, [])] :: g
 end
-
-
-
-
-
