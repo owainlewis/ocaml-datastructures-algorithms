@@ -1,4 +1,0 @@
-(* List utilities *)
-
-open Util
-
