@@ -74,5 +74,3 @@ let rec quicksort gt = function
       let ys, zs = List.partition (gt x) xs in
       (quicksort gt ys) @ (x :: (quicksort gt zs))
 
-let n = [5;1;4;2;8]
-

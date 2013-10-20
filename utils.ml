@@ -1,24 +1,29 @@
 (* General utils *)
 
-module Util
-  struct
-  end
+module type U = sig
+  val range : int -> int -> int list
+  val inc   : int -> int
+  val dec   : int -> int
+end
 
-let range (x: int) (y: int) =
+module Utils : U =
+struct
+
+let range x y =
   let rec aux l item =
     let increment n = n + 1
     in
-      match (item < y) with
-      | true  -> aux (l @ [item]) (increment item)
-      | false -> l
+      if (item < y) then aux (l @ [item]) (increment item)
+                    else l
   in aux [] x
 
-let rand_int (limit: int) : int =
-  Random.int limit
+  let inc x = x + 1
+  let dec x = x - 1
 
-(* An int array of random size in range r *)
-let random_array size r =
-  Array.init size (fun _ -> Random.int r)
+  (* An int array of random size in range r *)
+  let random_array size r =
+    Array.init size (fun _ -> Random.int r)
+end
 
 (* Useful operators *)
 
@@ -26,9 +31,6 @@ let (|>) x f = f x
 
 (* Haskells compose . operator *)
 let (>>) f g x = g (f x)
-
-let inc x = x + 1
-let dec x = x - 1
 
 let flat_map f = List.concat >> List.map f
 

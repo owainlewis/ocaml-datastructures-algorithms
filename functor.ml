@@ -18,8 +18,7 @@ end
 
 (* The SET implementation. Define a Functor impmlementing the SETSIG signature *)
 
-module MakeSet (Equal : EQUALSIG)
-  : SETSIG with type elt = Equal.t =
+module MakeSet (Equal : EQUALSIG) : SETSIG with type elt = Equal.t =
 struct
   open Equal
   type elt = t

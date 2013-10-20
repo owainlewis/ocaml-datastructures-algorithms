@@ -16,15 +16,11 @@ module type ASTACK =
 module IStack : ASTACK =
   struct
     type 'a stack = 'a list
-
     exception EmptyStack
-
     let empty : 'a stack = []
-
-    let isEmpty (l:'a list): bool =
-      (match l with
-         [] -> true
-       | _ -> false)
+    let isEmpty = function
+      | [] -> true
+      |  _ -> false
 
     let push ((x:'a), (l:'a stack)):'a stack = x::l
 
@@ -39,7 +35,6 @@ module IStack : ASTACK =
        | (x::xs) -> x)
 
     let map (f:'a -> 'b) (l:'a stack):'b stack = List.map f l
-
     let app (f:'a -> unit) (l:'a stack):unit = List.iter f l
   end
 
