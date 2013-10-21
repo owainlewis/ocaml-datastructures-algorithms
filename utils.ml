@@ -2,27 +2,33 @@
 
 module type U = sig
   val range : int -> int -> int list
-  val inc   : int -> int
-  val dec   : int -> int
 end
 
 module Utils : U =
 struct
 
-let range x y =
-  let rec aux l item =
-    let increment n = n + 1
-    in
-      if (item < y) then aux (l @ [item]) (increment item)
-                    else l
-  in aux [] x
+  let rec sum_recur = function
+    |  [] -> 0
+    | x::xs -> x + sum_recur xs
 
-  let inc x = x + 1
-  let dec x = x - 1
+  (* no deferred operations on any recursive call *)
+  let sum lst =
+    let rec aux' s a =
+      match s with
+        [] -> a
+      | x::xs -> aux' xs (a+x) in
+    aux' lst 0
+
+  let range x y =
+    let rec aux l item =
+      let increment n = n+1
+      in
+        if (item < y) then aux (l @ [item]) (increment item)
+                      else l
+    in aux [] x
 
   (* An int array of random size in range r *)
-  let random_array size r =
-    Array.init size (fun _ -> Random.int r)
+  let random_array size r = Array.init size (fun _ -> Random.int r)
 end
 
 (* Useful operators *)

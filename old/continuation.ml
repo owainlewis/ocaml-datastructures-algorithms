@@ -5,13 +5,13 @@ Programming continuations
 
 **************************)
 
-let rec sum_recur (s: int list): int =
-  match s with
+let rec sum_recur lst =
+  match lst with
     [] -> 0
   | x::xs -> x + sum_recur xs
 
 (* no deferred operations on any recursive call *)
-let sum_tail_recur (s: int list): int =
+let sum_tail_recur s =
   let rec aux' s a =
     match s with
       [] -> a
@@ -20,7 +20,7 @@ let sum_tail_recur (s: int list): int =
 
 (* create a function that packages up deferred operations,
    then passes it down in the recursive call for somebody else to perform *)
-let sum_continutation (s: int list): int =
+let sum_continutation s =
   let rec sum' s k =
     match s with
       [] -> k 0
