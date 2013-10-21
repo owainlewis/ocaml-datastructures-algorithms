@@ -9,5 +9,3 @@ let rec linear_search v = function
   | [] -> None
   | x::xs -> if x = v then Some(x) 
                       else linear_search value xs
-
-
