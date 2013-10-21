@@ -13,7 +13,6 @@ let rec swap (l, n) =
      in loop l 0 []
 
 (* Mutable state *)
-
 let swapm xs i j =
   let temp = xs.(i) in
   xs.(i) <- xs.(j);
