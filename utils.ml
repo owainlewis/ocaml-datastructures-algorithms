@@ -6,7 +6,6 @@ end
 
 module Utils : U =
 struct
-
   let rec sum_recur = function
     |  [] -> 0
     | x::xs -> x + sum_recur xs
@@ -32,11 +31,20 @@ struct
 end
 
 (* Useful operators *)
-
 let (|>) x f = f x 
 
 (* Haskells compose . operator *)
 let (>>) f g x = g (f x)
 
 let flat_map f = List.concat >> List.map f
+
+(* File reading utilty function *)
+let read filename =
+  let file_in = open_in filename in
+  let rec aux acc =
+    try aux (input_line file_in :: acc) with End_of_file -> close_in file_in; acc
+  in
+  aux [] |> List.filter ((<>) "") |> List.rev
+
+let count_lines filename = filename |> read |> List.length
 
