@@ -6,29 +6,37 @@ end
 
 module Utils : U =
 struct
-  let rec sum_recur = function
-    |  [] -> 0
-    | x::xs -> x + sum_recur xs
+  let range = range
+end
+
+let range x y =
+  let rec aux l item =
+    let increment n = n+1 in
+    if (item < y) then aux (l @ [item]) (increment item)
+                  else l
+  in aux [] x
+
+(* An int array of random size in range r *)
+let random_array size r = Array.init size (fun _ -> Random.int r)
+
+let rec sum_recur = function
+  |  [] -> 0
+  | x::xs -> x + sum_recur xs
 
   (* no deferred operations on any recursive call *)
-  let sum lst =
-    let rec aux' s a =
-      match s with
-        [] -> a
-      | x::xs -> aux' xs (a+x) in
-    aux' lst 0
+let sum lst =
+  let rec aux' s a =
+    match s with
+      [] -> a
+    | x::xs -> aux' xs (a+x) in
+  aux' lst 0
 
-  let range x y =
-    let rec aux l item =
-      let increment n = n+1
-      in
-        if (item < y) then aux (l @ [item]) (increment item)
-                      else l
-    in aux [] x
-
-  (* An int array of random size in range r *)
-  let random_array size r = Array.init size (fun _ -> Random.int r)
-end
+let take_while ~f l =
+  let rec aux ls = function
+    | [] -> ls
+    | x::xs -> if f x then aux (x::ls) xs else ls
+  in
+  List.rev (aux [] l)
 
 (* Useful operators *)
 let (|>) x f = f x 
