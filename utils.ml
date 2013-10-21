@@ -2,11 +2,13 @@
 
 module type U = sig
   val range : int -> int -> int list
+  val random_list : int -> int -> int list
 end
 
 module Utils : U =
 struct
   let range = range
+  let random_list = random_list
 end
 
 let range x y =
@@ -18,6 +20,13 @@ let range x y =
 
 (* An int array of random size in range r *)
 let random_array size r = Array.init size (fun _ -> Random.int r)
+
+let random_list size r =
+  let l = ref [] in
+  for i = 0 to size do
+    l := Random.int r :: !l
+  done;
+  !l
 
 let rec sum_recur = function
   |  [] -> 0

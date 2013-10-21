@@ -2,6 +2,8 @@
 
 open Utils
 
+let unsorted = Utils.random_list 100 100
+
 let rec bubble_sort l =
   let rec aux = function
     | [] -> []
@@ -10,6 +12,6 @@ let rec bubble_sort l =
                 else x::aux(y::xs)
     | x::xs -> x :: aux xs
   in let p = aux l in
-    if l <> p then bubble_sort p
-              else l
+  if l <> p then bubble_sort p
+            else l
 
