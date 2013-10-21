@@ -47,7 +47,7 @@ let take_while ~f l =
   in
   List.rev (aux [] l)
 
-(* Useful operators *)
+(* [(|>)] is the forward pipe operator *)
 let (|>) x f = f x 
 
 (* Haskells compose . operator *)
@@ -65,3 +65,13 @@ let read filename =
 
 let count_lines filename = filename |> read |> List.length
 
+(* Take n lines from a given file *)
+let take_lines n filename =
+  let file_in = open_in filename in
+  let rec aux acc count =
+    if count = n then acc
+    else 
+      try let l = (input_line file_in :: acc) 
+          in aux l (count+1)
+      with End_of_file -> close_in file_in; acc
+  in aux [] 0 |> List.rev
