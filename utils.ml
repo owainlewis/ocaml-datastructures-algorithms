@@ -5,12 +5,6 @@ module type U = sig
   val random_list : int -> int -> int list
 end
 
-module Utils : U =
-struct
-  let range = range
-  let random_list = random_list
-end
-
 let range x y =
   let rec aux l item =
     let increment n = n+1 in
@@ -27,6 +21,12 @@ let random_list size r =
     l := Random.int r :: !l
   done;
   !l
+
+module Utils : U =
+struct
+  let range = range
+  let random_list = random_list
+end
 
 let rec sum_recur = function
   |  [] -> 0
@@ -55,6 +55,9 @@ let (>>) f g x = g (f x)
 
 let flat_map f = List.concat >> List.map f
 
+let print   = print_string
+let println = print_endline
+
 (* File reading utilty function *)
 let read filename =
   let file_in = open_in filename in
@@ -75,3 +78,15 @@ let take_lines n filename =
           in aux l (count+1)
       with End_of_file -> close_in file_in; acc
   in aux [] 0 |> List.rev
+
+(* Apply a function to each line in a channel *)
+(* e.g each_line (open_in "README.md") print_endline *)
+let rec each_line channel f = 
+  try 
+    let line = input_line channel in
+    f line;
+    each_line channel f
+  with
+    | End_of_file -> close_in channel
+    | _ -> failwith "Exception raised while processing file"
+
