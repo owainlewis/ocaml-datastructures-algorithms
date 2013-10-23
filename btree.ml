@@ -38,10 +38,34 @@ let make_tree =
 (* Traversals *)
 (* *************************************************** *)
 
+(* Pre-order *)
+(* Visit the root *)
+(* Traverse the left subtree *)
+(* Traverse the right subtree *)
 let rec preorder = function
     Leaf -> []
-  | Node(l,v,r) -> v::((preorder l) @ (preorder r))
+  | Node(l,v,r) -> [v] @ (preorder l) @ (preorder r)
 
+(* In-order (symmetric) *)
+(* Traverse the left subtree. *)
+(* Visit the root. *)
+(* Traverse the right subtree. *)
 let rec inorder = function
     Leaf -> []
-  | Node(l,v,r) -> (inorder l) @ v::(inorder r)
+  | Node(l,v,r) -> 
+      (inorder l) @ [v] @ (inorder r)
+
+(* Post-order *)
+(* Traverse the left subtree. *)
+(* Traverse the right subtree. *)
+(* Visit the root. *)
+let rec postorder = function
+    Leaf -> []
+  | Node(l,v,r) -> postorder l @ postorder r @ [v]
+
+(* String Tree *)
+
+let t = ['A';'B';'C';'D';'E';'F';'G';'H';'I'];;
+
+(** Tree Functors fmap etc *)
+
