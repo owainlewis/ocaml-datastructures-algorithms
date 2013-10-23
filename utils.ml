@@ -81,12 +81,41 @@ let take_lines n filename =
 
 (* Apply a function to each line in a channel *)
 (* e.g each_line (open_in "README.md") print_endline *)
-let rec each_line channel f = 
+let rec do_each_line channel f = 
   try 
     let line = input_line channel in
     f line;
-    each_line channel f
+    do_each_line channel f
   with
     | End_of_file -> close_in channel
     | _ -> failwith "Exception raised while processing file"
 
+let map_lines file f = 
+  do_each_line (open_in file) f
+
+let sum_squares xs =
+     xs
+  |> List.fold_left (fun acc v -> (v*v)::acc) [] 
+  |> sum
+
+let rec zip v1 v2 =
+  match (v1, v2) with
+  | [], _ -> []
+  | _, [] -> []
+  | (x::xs), (y::ys) -> (x,y)::zip xs ys
+
+let dot_product v1 v2 = 
+  let zipped = zip v1 v2 in
+  List.map (fun (x,y) -> x * y) zipped |> sum
+
+type 'a point = Point of 'a * 'a
+
+(* Euclidean distance for two points *)
+let euclidean p1 p2 =
+  match (p1,p2) with
+  | P(x1,x2), P(y1,y2) -> 
+      let a = x1-y1 in
+      let b = x2-y2 in
+      let c = (a*a) + (b*b) in sqrt (float_of_int c)
+  | _              -> failwith "Arguments p1 and p2 be of type P(x,y)"
+  
