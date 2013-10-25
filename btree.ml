@@ -50,6 +50,8 @@ let rec right_sub_tree = function
 (* Traversals *)
 (* *************************************************** *)
 
+let sample_tree = make_tree [7;1;0;3;2;5;4;6;9;8;10];;
+
 (* Pre-order *)
 (* Visit the root *)
 (* Traverse the left subtree *)
@@ -74,6 +76,13 @@ let rec inorder = function
 let rec postorder = function
     Leaf -> []
   | Node(l,v,r) -> postorder l @ postorder r @ [v]
+
+(* Map a function over a binary tree in pre_order *)
+let rec pre_map ~f = function
+  | Leaf -> []
+  | Node(l,v,r) -> 
+     let x = f v in
+     [x] @ (preorder l) @ (preorder r)
 
 (* String Tree *)
 
