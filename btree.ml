@@ -35,6 +35,18 @@ let make_tree =
   List.fold_left 
     (fun acc v -> insert v acc) Leaf
 
+let root_node = function
+  | Leaf -> None
+  | Node(_,v,_) -> Some(v)
+
+let rec left_sub_tree = function
+  | Leaf -> []
+  | Node(l,v,_) -> v :: left_sub_tree l
+
+let rec right_sub_tree = function
+  | Leaf -> []
+  | Node(_,v,r) -> v :: right_sub_tree r
+
 (* Traversals *)
 (* *************************************************** *)
 
@@ -67,5 +79,5 @@ let rec postorder = function
 
 let t = ['A';'B';'C';'D';'E';'F';'G';'H';'I'];;
 
-(** Tree Functors fmap etc *)
+(* Tree Functors fmap etc *)
 
