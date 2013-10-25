@@ -5,9 +5,27 @@ type 'a tree =
   | Node of 'a tree * 'a * 'a tree
 
 module type BTree = sig
+  type 'a
   val insert : 'a -> 'a tree -> 'a tree
   val member : 'a -> 'a tree -> bool
   val size   : 'a tree -> int
+  end
+
+type order = Lt | Eq | Gt
+
+module Int = 
+struct
+  type t = int
+  let comp (x,y) =
+  if x > y then Gt
+  else if x < y then Lt 
+  else Eq
+end
+
+module Make (El : Compare) =
+struct
+  type elem = El.t
+  type tree = Leaf | Node of tree * elem * tree
 end
 
 let rec insert v = function
@@ -71,37 +89,38 @@ let rec right_sub_tree = function
 
 let sample_tree = make_tree [7;1;0;3;2;5;4;6;9;8;10];;
 
-(* Pre-order *)
-(* Visit the root *)
-(* Traverse the left subtree *)
-(* Traverse the right subtree *)
 let rec preorder = function
     Leaf -> []
   | Node(l,v,r) -> [v] @ (preorder l) @ (preorder r)
 
-(* In-order (symmetric) *)
-(* Traverse the left subtree. *)
-(* Visit the root. *)
-(* Traverse the right subtree. *)
 let rec inorder = function
     Leaf -> []
   | Node(l,v,r) -> 
       (inorder l) @ [v] @ (inorder r)
 
-(* Post-order *)
-(* Traverse the left subtree. *)
-(* Traverse the right subtree. *)
-(* Visit the root. *)
 let rec postorder = function
     Leaf -> []
   | Node(l,v,r) -> postorder l @ postorder r @ [v]
 
-(* Map a function over a binary tree in pre_order *)
+(* Functions to map a function f over a tree structure *)
+
 let rec pre_map ~f = function
   | Leaf -> []
   | Node(l,v,r) -> 
      let x = f v in
-     [x] @ (preorder l) @ (preorder r)
+     [x] @ (pre_map f l) @ (pre_map f r)
+
+let rec inorder_map ~f = function
+  | Leaf -> []
+  | Node(l,v,r) ->
+     let x = f v in
+     (inorder_map f l) @ [x] @ (inorder_map f r)
+
+let rec post_map ~f = function
+  | Leaf -> []
+  | Node(l,v,r) ->
+     let x = f v in
+     post_map f l @ post_map f r @ [x]
 
 (* String Tree *)
 
