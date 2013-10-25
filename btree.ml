@@ -5,11 +5,10 @@ type 'a tree =
   | Node of 'a tree * 'a * 'a tree
 
 module type BTree = sig
-  type 'a
   val insert : 'a -> 'a tree -> 'a tree
   val member : 'a -> 'a tree -> bool
   val size   : 'a tree -> int
-  end
+end
 
 type order = Lt | Eq | Gt
 
@@ -22,12 +21,6 @@ struct
   else Eq
 end
 
-module Make (El : Compare) =
-struct
-  type elem = El.t
-  type tree = Leaf | Node of tree * elem * tree
-end
-
 let rec insert v = function
   | Leaf -> Node(Leaf, v, Leaf)
   | Node(l,item,r)
@@ -37,14 +30,31 @@ let rec insert v = function
          else if v > item then Node(l, item, (insert v r))
          else Node(l, item, r)
 
+(* Tree deletion *)
+
+exception EmptyTree (* fail if calling delete on empty tree *)
+
+let rec delete_max = function
+  | Leaf -> raise EmptyTree
+  | Node(l,v,Leaf) -> (v, l)
+  | Node(l,v,r) -> 
+      let (max, r') = delete_max r in (max, Node(l,v,r'))
+
+let rec delete x = function
+  | Leaf -> Leaf
+  | Node(l,v,Leaf) when v=x -> l
+  | Node(Leaf,v,r) when v=x -> r
+  | Node(l,v,r) -> 
+      if x=v then let (pred, l') = delete_max l in Node(l', pred, r)
+      else if x < v then Node(delete x l, v, r)
+      else Node(l,v, delete x r)
+
 let rec contains value = function
   | Leaf -> false
   | Node(l,v,r) -> 
       if value=v then true
                  else if value < v then contains value l
                  else contains value r
-
-(* Removal *)
 
 let rec member x = function
   | Leaf -> false
