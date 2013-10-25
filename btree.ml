@@ -19,6 +19,15 @@ let rec insert v = function
          else if v > item then Node(l, item, (insert v r))
          else Node(l, item, r)
 
+let rec contains value = function
+  | Leaf -> false
+  | Node(l,v,r) -> 
+      if value=v then true
+                 else if value < v then contains value l
+                 else contains value r
+
+(* Removal *)
+
 let rec member x = function
   | Leaf -> false
   | Node(l,v,r) ->
@@ -26,9 +35,19 @@ let rec member x = function
       else if x < v then member x l
       else member x r
 
-let rec height = function
-  | Leaf -> 0
-  | Node(l,_,r) -> 1 + (max (height l) (height r))
+type direction = Left | Right
+
+let height tree =
+  let rec aux d = function
+    | Leaf -> 0
+    | Node(l,_,r) ->
+        match d with
+        | Left -> 1 + (aux Left l)
+        | Right -> 1 + (aux Right r)
+  in 
+  let height_left = aux Left tree
+  and height_right = aux Right tree
+  in max height_left height_right
 
 (* Build a tree from a list *)
 let make_tree = 
