@@ -8,7 +8,7 @@ Data structure and algorithm study in OCaml
 + Manhattan
 
 ## Math
-+ Primes: sieve of eratosthenes
++ Prime number generation
 + Dot product
 + Euclid
 
