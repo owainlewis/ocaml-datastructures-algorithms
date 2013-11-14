@@ -118,4 +118,11 @@ let euclidean p1 p2 =
       let b = x2-y2 in
       let c = (a*a) + (b*b) in sqrt (float_of_int c)
   | _              -> failwith "Arguments p1 and p2 be of type P(x,y)"
+
+(* List Utils *)
+
+let rec forall p l =
+  match l with
+    [] -> true
+  | h::t -> p(h) & forall p t;;
   
