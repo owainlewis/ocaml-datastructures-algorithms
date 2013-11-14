@@ -1,7 +1,7 @@
 (* Misc stuff *)
 
 module type M = sig
-    val fisher_yates_shuffle : 'a array -> 'a array
+  val fisher_yates_shuffle : 'a array -> 'a array
 end
 
 module Misc : M = 
