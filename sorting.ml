@@ -34,7 +34,7 @@ let rec bubble_sort l =
   if l <> p then bubble_sort p
             else l
 
-let selection_sort xs =
+let selection_sort_array_mutable xs =
   let swap a i j =
     let temp = a.(i) in
     a.(i) <- a.(j); a.(j) <- temp
@@ -62,6 +62,17 @@ let rec selection_sort = function
         | x::xs            -> aux y (x::ys) xs
       in
       aux h [] t
+
+(* Insertion sort using an auxilary insertion helper *)
+let rec insertion_sort lst =
+  let rec insert v = function
+      [] -> [v]
+    | x::xs as l -> if v < x then v :: l else x :: (insert v xs) 
+  in 
+  match lst with
+      []    -> []
+    | [x]   -> [x]
+    | x::xs -> insert x (insertion_sort xs)
 
 (* Tests *)
 
