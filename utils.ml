@@ -125,4 +125,8 @@ let rec forall p l =
   match l with
     [] -> true
   | h::t -> p(h) & forall p t;;
+
+let list_empty = function
+  | [] -> true
+  | _  -> false
   
