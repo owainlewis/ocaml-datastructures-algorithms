@@ -1,5 +1,7 @@
 (* Graph Algorithms *)
 
+#use "utils.ml";;
+
 module type ADJ = 
   sig
     type t
@@ -35,11 +37,12 @@ module Graph = struct
   let in_func v  = let V (_,_,x) = v in !x
 
   let flatten_edges g f = 
-    let edges = List.map f !g in List.flatten edges
+    let edges = List.map f !g in 
+    edges |> List.flatten
 
   let outgoing_edges g = flatten_edges g out_func
 
-  let incoming_edges g = List.map (fun (v) -> let V (_,_,x) = v in x) !g
+  let incoming_edges g = flatten_edges g in_func
  
   let is_empty g =
     match !g with
