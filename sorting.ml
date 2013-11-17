@@ -95,9 +95,9 @@ let run tests =
   let passed = ref 0
   and failed = ref 0 in
   let unsorted = Utils.random_list 1000 1000 in
-  List.map (fun f -> if (f unsorted = generic_sort unsorted) 
-                     then incr passed 
-                     else incr failed) tests;
+  List.map (fun f -> if (f unsorted <> generic_sort unsorted) 
+                     then incr failed
+                     else incr passed) tests;
   Printf.printf "\n\nPassed %d Failed %d\n\n" !passed !failed
 
 let main() = run tests;;
