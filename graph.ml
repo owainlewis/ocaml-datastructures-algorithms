@@ -5,7 +5,7 @@ module DiGraph = struct
   exception VertexDoesNotExist
   exception Cyclic of string
   (* TODO parameterize this module *)
-  type t = int
+  type t = string
   type vertex = V of t * (t list ref)
   type graph = vertex list ref 
   let create() = ref []
@@ -43,6 +43,25 @@ module DiGraph = struct
     let g = create() in
     List.map (fun (src, dest) -> add_edge g src dest) pairs;
     g
+
+  let sample_graph = 
+    let edges = [
+      ("a", "b"); ("a", "c");
+      ("a", "d"); ("b", "e");
+      ("c", "f"); ("d", "e");
+      ("e", "f"); ("e", "g") ]
+    in build_directed_graph edges
+
+  let dfs graph start_state =
+    let rec depth_first_search graph visited = function
+        [] -> List.rev visited
+      | x::xs ->
+          if List.mem x visited then
+            dfs graph visited xs
+          else 
+            let frontier = (successors graph x) @ xs
+            in dfs graph (x::visited) frontier
+    in depth_first_search graph [] (start_state::[])
 end
 
 let edges = [
@@ -56,7 +75,7 @@ let successors n edges =
     List.map snd (List.filter matching edges)
 
 let rec dfs edges visited = function
-  [] -> List.rev visited
+    [] -> List.rev visited
   | n::nodes ->
     if List.mem n visited then
       dfs edges visited nodes
