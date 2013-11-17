@@ -30,16 +30,16 @@ module SortAlgorithms : SORTSIG = struct
       | [x]   -> [x]
       | x::xs -> insert x (insertion_sort xs)
 
-  let rec bubble_sort l =
+  let rec bubble_sort lst =
     let rec aux = function
       | [] -> []
       | x::y::xs -> 
          if x > y then y::aux(x::xs)
                   else x::aux(y::xs)
       | x::xs -> x :: aux xs
-    in let p = aux l in
-    if l <> p then bubble_sort p
-              else l
+    in let p = aux lst in
+    if lst <> p then bubble_sort p
+                else lst
 end
 
 (** Utils **)
@@ -50,7 +50,6 @@ let rec swap (l, n) =
     | [] -> List.rev acc
     | h::t -> loop t (count+1) (h::acc)
    in loop l 0 []
-
 (* Mutable state for array swap *)
 let array_swap xs i j =
   let temp = xs.(i) in
@@ -77,6 +76,38 @@ let selection_sort_array_mutable xs =
   xs
 
 (* Tests *)
+(************************************)
 
-let unsorted = Utils.random_list 100 100
+let time f x =
+  let t = Sys.time() in
+  let fx = f x in
+  Printf.printf "Execution time: %fs\n" (Sys.time() -. t)
+
+let tests = [
+  SortAlgorithms.selection_sort;
+  SortAlgorithms.insertion_sort;
+  SortAlgorithms.bubble_sort;
+]
+
+let run tests = 
+  let generic_sort = List.sort (fun x y -> if x > y then 1 else 0)
+  in
+  let passed = ref 0
+  and failed = ref 0 in
+  let unsorted = Utils.random_list 1000 1000 in
+  List.map (fun f -> if (f unsorted = generic_sort unsorted) 
+                     then incr passed 
+                     else incr failed) tests;
+  Printf.printf "\n\nPassed %d Failed %d\n\n" !passed !failed
+
+let main() = run tests;;
+  
+let time_all() =
+  let unsorted = Utils.random_list 5000 5000 in
+  Printf.printf "Selection sort -> ";
+  time SortAlgorithms.selection_sort unsorted;
+  Printf.printf "Insertion sort -> ";
+  time SortAlgorithms.insertion_sort unsorted;
+  Printf.printf "Bubble sort -> ";
+  time SortAlgorithms.bubble_sort unsorted
 
