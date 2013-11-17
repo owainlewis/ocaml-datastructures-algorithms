@@ -31,15 +31,12 @@ let rec insert v = function
          else Node(l, item, r)
 
 (* Tree deletion *)
-
 exception EmptyTree (* fail if calling delete on empty tree *)
-
 let rec delete_max = function
   | Leaf -> raise EmptyTree
   | Node(l,v,Leaf) -> (v, l)
   | Node(l,v,r) -> 
       let (max, r') = delete_max r in (max, Node(l,v,r'))
-
 let rec delete x = function
   | Leaf -> Leaf
   | Node(l,v,Leaf) when v=x -> l
@@ -48,14 +45,12 @@ let rec delete x = function
       if x=v then let (pred, l') = delete_max l in Node(l', pred, r)
       else if x < v then Node(delete x l, v, r)
       else Node(l,v, delete x r)
-
 let rec contains value = function
   | Leaf -> false
   | Node(l,v,r) -> 
       if value=v then true
                  else if value < v then contains value l
                  else contains value r
-
 let rec member x = function
   | Leaf -> false
   | Node(l,v,r) ->
@@ -64,7 +59,6 @@ let rec member x = function
       else member x r
 
 type direction = Left | Right
-
 let height tree =
   let rec aux d = function
     | Leaf -> 0
@@ -81,51 +75,41 @@ let height tree =
 let make_tree = 
   List.fold_left 
     (fun acc v -> insert v acc) Leaf
-
 let root_node = function
   | Leaf -> None
   | Node(_,v,_) -> Some(v)
-
 let rec left_sub_tree = function
   | Leaf -> []
   | Node(l,v,_) -> v :: left_sub_tree l
-
 let rec right_sub_tree = function
   | Leaf -> []
   | Node(_,v,r) -> v :: right_sub_tree r
 
 (* Traversals *)
 (* *************************************************** *)
-
 let sample_tree = make_tree [7;1;0;3;2;5;4;6;9;8;10];;
-
 let rec preorder = function
     Leaf -> []
   | Node(l,v,r) -> [v] @ (preorder l) @ (preorder r)
-
 let rec inorder = function
     Leaf -> []
   | Node(l,v,r) -> 
       (inorder l) @ [v] @ (inorder r)
-
 let rec postorder = function
     Leaf -> []
   | Node(l,v,r) -> postorder l @ postorder r @ [v]
 
 (* Functions to map a function f over a tree structure *)
-
 let rec pre_map ~f = function
   | Leaf -> []
   | Node(l,v,r) -> 
      let x = f v in
      [x] @ (pre_map f l) @ (pre_map f r)
-
 let rec inorder_map ~f = function
   | Leaf -> []
   | Node(l,v,r) ->
      let x = f v in
      (inorder_map f l) @ [x] @ (inorder_map f r)
-
 let rec post_map ~f = function
   | Leaf -> []
   | Node(l,v,r) ->
@@ -133,7 +117,6 @@ let rec post_map ~f = function
      post_map f l @ post_map f r @ [x]
 
 (* String Tree *)
-
 let t = ['A';'B';'C';'D';'E';'F';'G';'H';'I'];;
 
 (* Tree Functors fmap etc *)
