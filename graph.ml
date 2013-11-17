@@ -2,12 +2,11 @@
 
 (* Set would be a better choice here for when I get some time *)
 module DiGraph = struct
-
   exception VertexDoesNotExist
-
   exception Cyclic of string
-
-  type vertex = V of int * (int list ref)
+  (* TODO parameterize this module *)
+  type t = int
+  type vertex = V of t * (t list ref)
   type graph = vertex list ref 
   let create() = ref []
   let ident v = let V (x, _) = v in x
@@ -34,12 +33,16 @@ module DiGraph = struct
     | Some(v) -> let V (_, adjList) = v in adjList := dest :: !adjList
     (* Todo in theory we can't reach this case *)
     | _ -> failwith "Source vertex does not exist"
-
   let successors g v =
     let vtx = get_vertex g v in
     match vtx with
     | Some(vertex) -> let V (_, adjList) = vertex in !adjList
     | None -> raise VertexDoesNotExist
+  (* Builds a directed graph from a list of edge pairs i.e [(1,2);(2,3)] etc *)
+  let build_directed_graph pairs = 
+    let g = create() in
+    List.map (fun (src, dest) -> add_edge g src dest) pairs;
+    g
 end
 
 let edges = [
@@ -60,8 +63,7 @@ let rec dfs edges visited = function
     else dfs edges (n::visited) ((successors n edges) @ nodes)
 
 exception Cyclic of string
-
-let tsort edges seed =
+let topological_sort edges seed =
   let rec sort path visited = function
       [] -> visited
     | n::nodes ->
