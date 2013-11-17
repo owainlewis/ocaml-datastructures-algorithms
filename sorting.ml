@@ -90,8 +90,8 @@ let tests = [
 ]
 
 let run tests = 
-  let generic_sort = List.sort (fun x y -> if x > y then 1 else 0)
-  in
+  let generic_sort = 
+    List.sort (fun x y -> if x > y then 1 else 0) in
   let passed = ref 0
   and failed = ref 0 in
   let unsorted = Utils.random_list 1000 1000 in
