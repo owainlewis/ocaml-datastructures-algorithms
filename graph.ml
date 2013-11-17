@@ -1,3 +1,76 @@
+(* Graph Algorithms *)
+
+(* Set would be a better choice here for when I get some time *)
+module DiGraph = struct
+
+  exception VertexDoesNotExist
+
+  exception Cyclic of string
+
+  type vertex = V of int * (int list ref)
+  type graph = vertex list ref 
+  let create() = ref []
+  let ident v = let V (x, _) = v in x
+  let vertices g = List.map ident !g  
+  let has_vertex g v = List.mem v (vertices g)
+  let add_vertex g v = 
+    if has_vertex g v then g
+    else
+      let new_vertex = V (v, ref []) in
+      g := new_vertex :: !g;
+      g
+  let get_vertex g v =
+    let rec aux vert_list vertex =
+      match vert_list with
+      | [] -> None
+      | x::xs -> if (ident x) = vertex then Some(x) else aux xs vertex
+    in aux !g v
+  (* Adds a ONE-WAY connection. For undirected the operation needs to be done
+     in both directions *)
+  let add_edge g src dest =
+    add_vertex g src;
+    add_vertex g dest;
+    match (get_vertex g src) with
+    | Some(v) -> let V (_, adjList) = v in adjList := dest :: !adjList
+    (* Todo in theory we can't reach this case *)
+    | _ -> failwith "Source vertex does not exist"
+
+  let successors g v =
+    let vtx = get_vertex g v in
+    match vtx with
+    | Some(vertex) -> let V (_, adjList) = vertex in !adjList
+    | None -> raise VertexDoesNotExist
+end
+
+let edges = [
+  ("a", "b"); ("a", "c");
+  ("a", "d"); ("b", "e");
+  ("c", "f"); ("d", "e");
+  ("e", "f"); ("e", "g") ]
+
+let successors n edges =
+  let matching (s,_) = s = n in
+    List.map snd (List.filter matching edges)
+
+let rec dfs edges visited = function
+  [] -> List.rev visited
+  | n::nodes ->
+    if List.mem n visited then
+      dfs edges visited nodes
+    else dfs edges (n::visited) ((successors n edges) @ nodes)
+
+exception Cyclic of string
+
+let tsort edges seed =
+  let rec sort path visited = function
+      [] -> visited
+    | n::nodes ->
+      if List.mem n path then raise (Cyclic n) else
+      let v’ = if List.mem n visited then visited else
+        n :: sort (n::path) visited (successors n edges)
+      in sort path v’ nodes
+  in sort [] [] [seed]
+
 module type ADJ = 
   sig
     type t
