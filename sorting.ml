@@ -1,17 +1,22 @@
 (* Sorting algorithms functional and imp *)
 
-open Utils
-
 module type SORTSIG = 
   sig
+    val quicksort      : 'a list -> 'a list
     val selection_sort : 'a list -> 'a list
     val insertion_sort : 'a list -> 'a list
     val bubble_sort    : 'a list -> 'a list
   end
 
 module SortAlgorithms : SORTSIG = struct
+  let rec quicksort = function
+    | [] -> []
+    | x::xs -> let smaller, larger = List.partition (fun y -> y < x) xs
+               in let x = (quicksort smaller)
+		  and y = (x::quicksort larger) 
+		  in x @ y
   let rec selection_sort = function
-      [] -> []
+    | [] -> []
     | h::t ->
 	let rec aux y ys = function
 	    [] -> y :: selection_sort ys
@@ -22,11 +27,11 @@ module SortAlgorithms : SORTSIG = struct
   (* Insertion sort using an auxilary insertion helper *)
   let rec insertion_sort lst =
     let rec insert v = function
-	[] -> [v]
+      | [] -> [v]
       | x::xs as l -> if v < x then v :: l else x :: (insert v xs) 
     in 
     match lst with
-	[]    -> []
+      | []    -> []
       | [x]   -> [x]
       | x::xs -> insert x (insertion_sort xs)
 
@@ -84,6 +89,7 @@ let time f x =
   Printf.printf "Execution time: %fs\n" (Sys.time() -. t)
 
 let tests = [
+  SortAlgorithms.quicksort;
   SortAlgorithms.selection_sort;
   SortAlgorithms.insertion_sort;
   SortAlgorithms.bubble_sort;
