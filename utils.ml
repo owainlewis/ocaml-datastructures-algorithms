@@ -37,7 +37,7 @@ struct
 end
 
 let rec sum_recur = function
-  |  [] -> 0
+  | [] -> 0
   | x::xs -> x + sum_recur xs
 
   (* no deferred operations on any recursive call *)
@@ -54,7 +54,8 @@ let take_while ~f l =
     | x::xs -> if f x then aux (x::ls) xs else ls
   in
   List.rev (aux [] (* [(|>)] is the forward pipe operator *)
-let (|>) x f = f x
+  
+(* let (|>) x f = f x *)
 
 (* Haskells compose . operator *)
 let (>>) f g x = g (f x)
