@@ -1,5 +1,7 @@
 (* General utils *)
 
+open Core.Std
+
 module type U = sig
   val range : int -> int -> int list
   val random_list : int -> int -> int list
@@ -11,6 +13,12 @@ let range x y =
     if (item < y) then aux (l @ [item]) (increment item)
                   else l
   in aux [] x
+
+let map_with_index ~f l =
+  let rec aux i fn lst r = match lst with
+    | []    -> List.rev r
+    | x::xs -> aux (i+1) fn xs ((i, fn(x)) :: r)
+  in aux 0 f l []
 
 (* An int array of random size in range r *)
 let random_array size r = Array.init size (fun _ -> Random.int r)
@@ -45,10 +53,8 @@ let take_while ~f l =
     | [] -> ls
     | x::xs -> if f x then aux (x::ls) xs else ls
   in
-  List.rev (aux [] l)
-
-(* [(|>)] is the forward pipe operator *)
-let (|>) x f = f x 
+  List.rev (aux [] (* [(|>)] is the forward pipe operator *)
+let (|>) x f = f x
 
 (* Haskells compose . operator *)
 let (>>) f g x = g (f x)
@@ -120,6 +126,9 @@ let euclidean p1 p2 =
   | _              -> failwith "Arguments p1 and p2 be of type P(x,y)"
 
 (* List Utils *)
+
+let map_squares = 
+  List.map ~f:(fun x -> x*x)
 
 let rec forall p l =
   match l with
