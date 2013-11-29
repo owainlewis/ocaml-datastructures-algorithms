@@ -140,3 +140,12 @@ let list_empty = function
   | [] -> true
   | _  -> false
   
+let rec filter p = function
+  | []    -> []
+  | x::xs -> if p x then x :: filter p xs 
+                    else filter p xs
+
+let multiple_of n x = x mod n = 0
+
+let remove_multiples_of n = 
+  in filter (fun v -> v mod n <> 0)
