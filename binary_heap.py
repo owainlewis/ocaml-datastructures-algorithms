@@ -1,7 +1,7 @@
 # Python binary heap refresher
+#
 
 class BinaryHeap(object):
-
     def __init__(self, heap=[0]):
         # to make the maths easier array is indexed from 1 not 0
         self.heap         = heap
@@ -59,4 +59,3 @@ class BinaryHeap(object):
             else:
                 return right_child
         
-test = [0,6,7,12,10,15,17,5]
