@@ -15,9 +15,5 @@ let rec contains x = function
       if x = y then true 
                else if (x < y) then contains x l
                else contains x r
-
-let rec foldr f a = function
-  | [] -> a
-  | x::xs -> f x (foldr f a xs)
-
+               
 let insert_many = List.fold_left (fun acc x -> insert x acc) Leaf
