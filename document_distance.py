@@ -1,0 +1,3 @@
+# Document distance algorithms
+
+class
