@@ -5,7 +5,6 @@
 # ===================================================
 
 class BinaryHeap:
-
     def __init__(self):
         # to make the maths easier array is indexed from 1 not 0
         self.heap         = [0]
