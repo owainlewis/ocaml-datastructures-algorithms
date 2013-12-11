@@ -218,7 +218,6 @@ class BST(object):
 ##########################################
 
 class AVLTree(BST):
-
     def __init__(self):
         pass
 
