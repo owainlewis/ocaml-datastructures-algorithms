@@ -1,6 +1,7 @@
 (**************************
 
 Programming continuations
+
 (might be worth looking at scheme for this stuff?
 
 **************************)
@@ -41,4 +42,3 @@ let fold_right_continuation (f : 'a -> 'b -> 'b) (s : 'a list) (b : 'b) : 'b =
       [] -> k b
     | x::xs -> fold_right' xs (fun y -> k (f x y)) in
     fold_right' s identity
-

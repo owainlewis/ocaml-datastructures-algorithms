@@ -16,13 +16,10 @@ module BinarySearchTree =
       type t = Elt.t
       type bst = Empty
 	       | Node of t * bst * bst
-
       let empty() = Empty
-
       let is_empty = function
 	Empty          -> true
       | Node (_, _, _) -> false
-
       let rec insert item = function
 	Empty -> Node (item, Empty, Empty)
       | Node (m, left, right) ->
@@ -30,7 +27,6 @@ module BinarySearchTree =
 	    Equal   -> Node (m, left, right)
 	  | Less    -> Node (m, (insert item left), right)
 	  | Greater -> Node (m, left, (insert item right))
-
       let rec min = function
 	Empty -> None
       | Node (_, left, _) ->

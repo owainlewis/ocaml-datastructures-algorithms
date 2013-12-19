@@ -19,20 +19,18 @@ a    b             b    c        b   c              c    d
 *)
 
 module RedBlackTree = struct
-    
   type color = Red | Black
-  
   type 'a tree =
     | Leaf
     | Node of color * 'a * 'a tree * 'a tree
-    
+
   let rec member x = function
       Leaf -> false
     | Node (_, value, left, right) ->
 	if x == value then true
 	else if x < value then member x left
 	else member x right
-	
+
   let balance = function
       Black, z, Node (Red, y, Node (Red, x, a, b), c), d
     | Black, z, Node (Red, x, a, Node (Red, y, b, c)), d
@@ -41,7 +39,7 @@ module RedBlackTree = struct
 	Node (Red, y, Node (Black, x, a, b), Node (Black, z, c, d))
     | a, b, c, d ->
 	Node (a, b, c, d)
-	
+
   let insert x s =
     let rec ins = function
 	Leaf -> Node (Red, x, Leaf, Leaf)

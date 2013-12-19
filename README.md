@@ -1,6 +1,6 @@
 # OCaml DSA
 
-Data structure and algorithm study in OCaml
+Data structure and algorithm study in OCaml.
 
 ## Distance
 + Chebyshev

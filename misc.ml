@@ -1,10 +1,10 @@
 (* Misc stuff *)
 
-module type M = sig
+module type Random = sig
   val fisher_yates_shuffle : 'a array -> 'a array
 end
 
-module Misc : M = 
+module Shuffle : Random =
   struct
   (* Knuth Fisher Yates Shuffle *)
   let fisher_yates_shuffle arr =
@@ -19,7 +19,3 @@ module Misc : M =
     done;
     arr
   end
-
-module MachineLearning = struct
-
-end

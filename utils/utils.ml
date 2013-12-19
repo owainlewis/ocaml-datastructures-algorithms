@@ -11,7 +11,7 @@ let range x y =
   let rec aux l item =
     let increment n = n+1 in
     if (item < y) then aux (l @ [item]) (increment item)
-                  else l
+		  else l
   in aux [] x
 
 let map_with_index ~f l =
@@ -54,10 +54,11 @@ let take_while ~f l =
     | x::xs -> if f x then aux (x::ls) xs else ls
   in
   List.rev (aux [] (* [(|>)] is the forward pipe operator *)
-  
+
 (* let (|>) x f = f x *)
 
 (* Haskells compose . operator *)
+
 let (>>) f g x = g (f x)
 
 let flat_map f = List.concat >> List.map f
@@ -80,16 +81,16 @@ let take_lines n filename =
   let file_in = open_in filename in
   let rec aux acc count =
     if count = n then acc
-    else 
-      try let l = (input_line file_in :: acc) 
-          in aux l (count+1)
+    else
+      try let l = (input_line file_in :: acc)
+	  in aux l (count+1)
       with End_of_file -> close_in file_in; acc
   in aux [] 0 |> List.rev
 
 (* Apply a function to each line in a channel *)
 (* e.g each_line (open_in "README.md") print_endline *)
-let rec do_each_line channel f = 
-  try 
+let rec do_each_line channel f =
+  try
     let line = input_line channel in
     f line;
     do_each_line channel f
@@ -97,12 +98,12 @@ let rec do_each_line channel f =
     | End_of_file -> close_in channel
     | _ -> failwith "Exception raised while processing file"
 
-let map_lines file f = 
+let map_lines file f =
   do_each_line (open_in file) f
 
 let sum_squares xs =
      xs
-  |> List.fold_left (fun acc v -> (v*v)::acc) [] 
+  |> List.fold_left (fun acc v -> (v*v)::acc) []
   |> sum
 
 let rec zip v1 v2 =
@@ -111,7 +112,7 @@ let rec zip v1 v2 =
   | _, [] -> []
   | (x::xs), (y::ys) -> (x,y)::zip xs ys
 
-let dot_product v1 v2 = 
+let dot_product v1 v2 =
   let zipped = zip v1 v2 in
   List.map (fun (x,y) -> x * y) zipped |> sum
 
@@ -120,7 +121,7 @@ type 'a point = Point of 'a * 'a
 (* Euclidean distance for two points *)
 let euclidean p1 p2 =
   match (p1,p2) with
-  | P(x1,x2), P(y1,y2) -> 
+  | P(x1,x2), P(y1,y2) ->
       let a = x1-y1 in
       let b = x2-y2 in
       let c = (a*a) + (b*b) in sqrt (float_of_int c)
@@ -128,7 +129,7 @@ let euclidean p1 p2 =
 
 (* List Utils *)
 
-let map_squares = 
+let map_squares =
   List.map ~f:(fun x -> x*x)
 
 let rec forall p l =
@@ -139,13 +140,12 @@ let rec forall p l =
 let list_empty = function
   | [] -> true
   | _  -> false
-  
+
 let rec filter p = function
   | []    -> []
-  | x::xs -> if p x then x :: filter p xs 
-                    else filter p xs
+  | x::xs -> if p x then x::filter p xs else filter p xs
 
 let multiple_of n x = x mod n = 0
 
-let remove_multiples_of n = 
+let remove_multiples_of n =
   in filter (fun v -> v mod n <> 0)
