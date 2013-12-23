@@ -55,7 +55,7 @@ let take_while ~f l =
   in
   List.rev (aux [] (* [(|>)] is the forward pipe operator *)
 
-(* let (|>) x f = f x *)
+let (|>) x f = f x
 
 (* Haskells compose . operator *)
 
