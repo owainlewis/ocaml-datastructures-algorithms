@@ -1,7 +1,6 @@
 (**************************
 
 Programming continuations
-
 (might be worth looking at scheme for this stuff?
 
 **************************)
