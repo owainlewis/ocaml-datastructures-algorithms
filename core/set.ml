@@ -14,13 +14,16 @@ end
 module OrderedString =
   struct
     type t = string
-    let cmp x y = if x = y then Eq else if x < y then Lt else Gt
+    let cmp x y = if x = y then Eq 
+                           else if x < y then Lt 
+                                         else Gt
   end
 
 module OrderedInt =
   struct
     type t = int
-    let cmp x y = if x = y then Eq else if x < y then Lt else Gt
+    let cmp x y = if x = y then Eq 
+                  else if x < y then Lt else Gt
   end
 
 module OSet = functor (Elt: ORDERED_TYPE) ->
