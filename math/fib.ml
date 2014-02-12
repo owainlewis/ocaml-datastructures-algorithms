@@ -2,7 +2,7 @@
 
 let naive_fib i =
   if i <= 1 then i
-  else naive_fib(i-1) + naive_fib(i-2)
+            else naive_fib(i-1) + naive_fib(i-2)
 
 let rec n_fib i = naive_fib i
 

@@ -2,7 +2,7 @@
 
 open Utils
 
-module type SORTSIG = 
+module type SORTSIG =
   sig
     val quicksort      : 'a list -> 'a list
     val selection_sort : 'a list -> 'a list
@@ -15,7 +15,7 @@ module SortAlgorithms : SORTSIG = struct
     | [] -> []
     | x::xs -> let smaller, larger = List.partition (fun y -> y < x) xs
                in let x = (quicksort smaller)
-		  and y = (x::quicksort larger) 
+		  and y = (x::quicksort larger)
 		  in x @ y
   let rec selection_sort = function
     | [] -> []
@@ -30,8 +30,8 @@ module SortAlgorithms : SORTSIG = struct
   let rec insertion_sort lst =
     let rec insert v = function
       | [] -> [v]
-      | x::xs as l -> if v < x then v :: l else x :: (insert v xs) 
-    in 
+      | x::xs as l -> if v < x then v :: l else x :: (insert v xs)
+    in
     match lst with
       | []    -> []
       | [x]   -> [x]
@@ -40,7 +40,7 @@ module SortAlgorithms : SORTSIG = struct
   let rec bubble_sort lst =
     let rec aux = function
       | [] -> []
-      | x::y::xs -> 
+      | x::y::xs ->
          if x > y then y::aux(x::xs)
                   else x::aux(y::xs)
       | x::xs -> x :: aux xs
@@ -57,6 +57,7 @@ let rec swap (l, n) =
     | [] -> List.rev acc
     | h::t -> loop t (count+1) (h::acc)
    in loop l 0 []
+
 (* Mutable state for array swap *)
 let array_swap xs i j =
   let temp = xs.(i) in
@@ -97,19 +98,19 @@ let tests = [
   SortAlgorithms.bubble_sort;
 ]
 
-let run tests = 
-  let generic_sort = 
+let run tests =
+  let generic_sort =
     List.sort (fun x y -> if x > y then 1 else 0) in
   let passed = ref 0
   and failed = ref 0 in
   let unsorted = Utils.random_list 1000 1000 in
-  List.map (fun f -> if (f unsorted <> generic_sort unsorted) 
+  List.map (fun f -> if (f unsorted <> generic_sort unsorted)
                      then incr failed
                      else incr passed) tests;
   Printf.printf "\n\nPassed %d Failed %d\n\n" !passed !failed
 
 let main() = run tests;;
-  
+
 let time_all() =
   let unsorted = Utils.random_list 5000 5000 in
   Printf.printf "Selection sort -> ";
@@ -118,4 +119,3 @@ let time_all() =
   time SortAlgorithms.insertion_sort unsorted;
   Printf.printf "Bubble sort -> ";
   time SortAlgorithms.bubble_sort unsorted
-
