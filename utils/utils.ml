@@ -7,6 +7,11 @@ module type U = sig
   val random_list : int -> int -> int list
 end
 
+module Function =
+struct
+  let ($) x y z = x (y z)
+end
+
 let range x y =
   let rec aux l item =
     let increment n = n+1 in
