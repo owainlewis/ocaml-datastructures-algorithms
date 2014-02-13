@@ -30,7 +30,9 @@ module SortAlgorithms : SORTSIG = struct
   let rec insertion_sort lst =
     let rec insert v = function
       | [] -> [v]
-      | x::xs as l -> if v < x then v :: l else x :: (insert v xs)
+      | x::xs as l -> if v < x
+                      then v :: l
+                      else x :: (insert v xs)
     in
     match lst with
       | []    -> []
