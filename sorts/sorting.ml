@@ -38,7 +38,6 @@ module SortAlgorithms : SORTSIG = struct
       | []    -> []
       | [x]   -> [x]
       | x::xs -> insert x (insertion_sort xs)
-
   let rec bubble_sort lst =
     let rec aux = function
       | [] -> []
