@@ -3,7 +3,8 @@
 let arr = [|2;1;4;5;1|]
 
 let arrayf f arr =
-  if Array.length arr <> 0 then let result = Array.fold_left (fun r v -> f r v) arr.(0) arr in Some(result)
+  if Array.length arr <> 0 then 
+    let result = Array.fold_left (fun r v -> f r v) arr.(0) arr in Some(result)
   else None
 
 let array_min arr = arrayf min arr
