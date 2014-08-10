@@ -1,1 +1,5 @@
-type bintree = Empty | BTNode of int | BTNode of int * bintree bintree * bintree
+
+type bintree = 
+  Empty | 
+  BTNode of int | 
+  BTNode of int * bintree bintree * bintree
