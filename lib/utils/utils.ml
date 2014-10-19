@@ -135,12 +135,12 @@ let euclidean p1 p2 =
 (* List Utils *)
 
 let map_squares =
-  List.map ~f:(fun x -> x*x)
+  List.map ~f:(fun x -> x * x)
 
 let rec forall p l =
   match l with
     [] -> true
-  | h::t -> p(h) & forall p t;;
+  | h::t -> p(h) & forall p t
 
 let list_empty = function
   | [] -> true
@@ -148,7 +148,8 @@ let list_empty = function
 
 let rec filter p = function
   | []    -> []
-  | x::xs -> if p x then x::filter p xs else filter p xs
+  | x::xs -> if p x then x :: filter p xs
+                    else filter p xs
 
 let multiple_of n x = x mod n = 0
 
