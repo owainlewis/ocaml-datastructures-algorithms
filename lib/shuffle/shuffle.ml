@@ -1,12 +1,13 @@
-(* Misc stuff *)
+(* Fisher Yates Shuffle *)
 
-module type Random = sig
+module type ShuffleAlgos = sig
   val fisher_yates_shuffle : 'a array -> 'a array
 end
 
-module Shuffle : Random =
-  struct
+module Shuffle : ShuffleAlgos = struct
+
   (* Knuth Fisher Yates Shuffle *)
+
   let fisher_yates_shuffle arr =
     let swap arr i j =
       let temp = arr.(i) in
@@ -18,4 +19,4 @@ module Shuffle : Random =
       swap arr i r;
     done;
     arr
-  end
+end

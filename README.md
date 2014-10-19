@@ -1,24 +1,30 @@
 # OCaml DSA
 
-Data structure and algorithm study in OCaml.
+## Data Structure and Algorithms in OCaml
+
+Data structure and algorithm study in OCaml. Purely for educational use only
 
 ## Distance
+
 + Chebyshev
 + Euclidean
 + Manhattan
 
 ## Math
+
 + Prime number generation
 + Dot product
 + Euclid
 
 ## Searching
+
 + Linear search
 + Binary search
 + DFS
 + BFS
 
 ## Sorting
+
 + Bubble Sort
 + Heap Sort
 + Insertion Sort

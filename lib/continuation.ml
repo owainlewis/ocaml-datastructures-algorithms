@@ -5,16 +5,15 @@ Programming continuations
 
 **************************)
 
-let rec sum_recur lst =
-  match lst with
-    [] -> 0
+let rec sum_recur = function
+  | []    -> 0
   | x::xs -> x + sum_recur xs
 
 (* no deferred operations on any recursive call *)
 let sum_tail_recur s =
   let rec aux' s a =
     match s with
-      [] -> a
+    | [] -> a
     | x::xs -> aux' xs (a + x) in
     aux' s 0
 
@@ -23,14 +22,14 @@ let sum_tail_recur s =
 let sum_continutation s =
   let rec sum' s k =
     match s with
-      [] -> k 0
+    | []    -> k 0
     | x::xs -> sum' xs (fun a -> k (x + a)) in
   sum' s (fun x -> x)
 
 (* Implementing a fold using continuations *)
 let rec fold_right_recur (f : 'a -> 'b -> 'b) (s : 'a list) (b : 'b) : 'b =
   match s with
-    [] -> b
+  | []    -> b
   | x::xs -> f x (fold_right_recur f xs b)
 
 (* using continuations *)
@@ -38,6 +37,6 @@ let fold_right_continuation (f : 'a -> 'b -> 'b) (s : 'a list) (b : 'b) : 'b =
   let identity = (fun x -> x) in (* the identity function *)
   let rec fold_right' s k =
     match s with
-      [] -> k b
-    | x::xs -> fold_right' xs (fun y -> k (f x y)) in
-    fold_right' s identity
+      | []    -> k b
+      | x::xs -> fold_right' xs (fun y -> k (f x y)) in
+                   fold_right' s identity

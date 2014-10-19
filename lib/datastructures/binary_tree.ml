@@ -10,6 +10,7 @@ end
 
 module Binary =
 struct
+
   type 'a tree =
     | Leaf
     | Node of 'a tree * 'a * 'a tree
@@ -30,7 +31,8 @@ struct
     | Node(l,x,r) ->
         if v = x then true
         else
-          if v < x then member v l else member v r
+          if v < x then member v l
+                   else member v r
 
   let rec height = function
     | Leaf -> 1
