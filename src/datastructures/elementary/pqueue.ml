@@ -25,7 +25,7 @@ module PrioQueue = functor (Elt: PQ_TYPE) ->
       match queue with
         Empty -> Node(prio, elt, Empty, Empty)
       | Node(p, e, left, right) ->
-          if prio <= p
+         if prio <= p
          then Node(prio, elt, insert right p e, left)
          else Node(p, e, insert right prio elt, left)
          
