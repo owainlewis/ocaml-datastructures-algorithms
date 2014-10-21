@@ -4,6 +4,34 @@
 
 Data structure and algorithm study in OCaml. Purely for educational use only
 
+4# Data Structures
+
+### Elementary
+
++ Stack
++ Queue
++ Priority queue
++ Linked List
+
+### Trees
+
++ Binary Search Tree
++ AVL Tree
++ B-Tre
++ Red-Black Tree
+
+### Heaps
+
++ Binary Heap [backed by an array or a tree]
++ Binomial heap
+
+### Graphs
+
++ Adjacency list graph
++ Adjacency matrix graph
+
+# Algorithms
+
 ## Distance
 
 + Chebyshev
@@ -16,7 +44,7 @@ Data structure and algorithm study in OCaml. Purely for educational use only
 + Dot product
 + Euclid
 
-## Searching
+## Search
 
 + Linear search
 + Binary search
@@ -34,34 +62,9 @@ Data structure and algorithm study in OCaml. Purely for educational use only
 + Shell Sort
 
 ## Graphs
-### Find shortest path(s) in a Graph from a starting Vertex
+
 + Dijkstra's algorithm
 + Bellman-Ford
-### Find minimum spanning tree
 + Prim's (min spanning tree)
-### Find all pairs shortest path
 + Johnsons's algorithm
 + Floyd-Warshall
-### Topological sort
-
-## Data Structures
-
-+ AVL Tree
-+ B-Tree
-+ Binary Heap [backed by an array or a tree]
-+ Binary Search Tree
-+ Compact Suffix Trie [backed by a Patricia Trie]
-+ Graph
-+ Undirected Graph
-+ Directed (Digraph) Graph
-+ Interval Tree
-+ KD Tree (k-dimensional tree or k-d tree)
-+ Linked List
-+ Matrix
-+ Patricia Trie
-+ Red-Black Tree
-+ Skip List
-+ Splay Tree
-+ Stack
-+ Queue
-+ Trie
