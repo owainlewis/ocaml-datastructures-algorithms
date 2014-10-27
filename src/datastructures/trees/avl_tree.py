@@ -220,11 +220,3 @@ class BST(object):
 class AVLTree(BST):
     def __init__(self):
         pass
-
-# Main 
-
-def main():
-    return
-
-if __name__ == '__main__':
-    main()
