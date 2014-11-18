@@ -2,13 +2,9 @@
 
 module ListUtils = struct
 
-  let maybe_first = function
-    | [] -> None
+  let safe_head = function
+    | []    -> None
     | x::xs -> Some(x)
-
-  let rest = function
-    | []      -> []
-    | _ :: xs -> xs
 
   let repeat x n =
     let rec aux curr bound result =

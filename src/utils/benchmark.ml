@@ -1,7 +1,7 @@
 module Benchmark = struct
   let time ~func:f ~value:x =
     let t = Sys.time() in
-    let _ = f x in (* Run the function *)
+    let _ = f x in
     Printf.printf "Execution time: %fs\n" (Sys.time() -. t);
     Sys.time() -. t
 end
