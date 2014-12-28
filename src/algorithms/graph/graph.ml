@@ -87,9 +87,9 @@ let topological_sort edges seed =
       [] -> visited
     | n::nodes ->
       if List.mem n path then raise (Cyclic n) else
-      let v’ = if List.mem n visited then visited else
+      let v' = if List.mem n visited then visited else
         n :: sort (n::path) visited (successors n edges)
-      in sort path v’ nodes
+      in sort path v' nodes
   in sort [] [] [seed]
 
 module type ADJ = 
