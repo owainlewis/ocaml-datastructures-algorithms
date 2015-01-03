@@ -1,0 +1,11 @@
+# OASIS_START
+# DO NOT EDIT (digest: cc233f6aed3a707c014833651a6c1c2a)
+version = "1.0"
+description = "OCaml Data structure and Algorithms"
+archive(byte) = "dsa.cma"
+archive(byte, plugin) = "dsa.cma"
+archive(native) = "dsa.cmxa"
+archive(native, plugin) = "dsa.cmxs"
+exists_if = "dsa.cma"
+# OASIS_STOP
+

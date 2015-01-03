@@ -7,8 +7,16 @@ License:     MIT
 BuildTools: ocamlbuild
 Plugins: META (0.4), DevFiles (0.4)
 
-Executable "main"
-  Path:   lib
-  CompiledObject: best
-  MainIs: main.ml
-  BuildDepends: core, threads
+Library dsa
+  Path: lib
+  Modules: Sort
+
+Executable test
+ Install: false
+ Path: test
+ MainIs: test.ml
+ BuildDepends: oUnit, dsa
+
+Test "main"
+ Type: Custom (0.0.1)
+ Command: $test
