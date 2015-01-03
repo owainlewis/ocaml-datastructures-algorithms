@@ -1,0 +1,14 @@
+OASISFormat: 0.4
+Name:        OCaml Data Structures and Algorithms
+Version:     1.0
+Synopsis:    OCaml Data structure and Algorithms
+Authors:     Owain Lewis <owain@owainlewis.com>
+License:     MIT
+BuildTools: ocamlbuild
+Plugins: META (0.4), DevFiles (0.4)
+
+Executable "main"
+  Path:   lib
+  CompiledObject: best
+  MainIs: main.ml
+  BuildDepends: core, threads
