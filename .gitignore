@@ -7,6 +7,8 @@
 *.cmx
 *.cmxs
 *.cmxa
+*.mldylib
+*.mllib
 
 # ocamlbuild working directory
 _build/
@@ -20,3 +22,6 @@ configure
 # oasis generated files
 setup.data
 setup.log
+
+myocamlbuild.ml
+setup.ml
