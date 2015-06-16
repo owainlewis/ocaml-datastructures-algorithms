@@ -1,14 +1,12 @@
 (**************************
 
 Programming continuations
-(might be worth looking at scheme for this stuff?
+
+Worth looking at scheme for this stuff
 
 **************************)
 
-let rec sum_recur = function
-  | []    -> 0
-  | x::xs -> x + sum_recur xs
-
+let rec sum_recur = function | [] -> 0 | x::xs -> x + sum_recur xs
 (* no deferred operations on any recursive call *)
 let sum_tail_recur s =
   let rec aux' s a =
