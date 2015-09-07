@@ -13,7 +13,6 @@
  * ****************************************************************** *)
 
 module RedBlackTree = struct
-
   exception Insert_error of string
 
   type color = Red | Black
