@@ -1,7 +1,6 @@
 (* General list utils *)
 
 module ListUtils = struct
-
   let safe_head = function
     | []    -> None
     | x::xs -> Some(x)
