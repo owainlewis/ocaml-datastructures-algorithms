@@ -18,5 +18,4 @@ module AvlTree =
                    else contains x r
 
     let insert_many = List.fold_left (fun acc x -> insert x acc) Leaf
-
   end
