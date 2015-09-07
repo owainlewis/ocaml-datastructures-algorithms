@@ -3,7 +3,6 @@
 # Python Binary Heap
 #
 # ===================================================
-
 class BinaryHeap:
     def __init__(self):
         # to make the maths easier array is indexed from 1 not 0
@@ -86,4 +85,4 @@ class BinaryHeap:
         self.current_size = self.current_size - 1
         self.heap.pop()
         return self.heap
-
+        
