@@ -1,5 +1,4 @@
 module type QUEUE = sig
-
   exception EmptyQueue
 
   type 'a queue

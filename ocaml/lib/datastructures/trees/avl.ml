@@ -11,9 +11,9 @@ let rec insert x = function
 
 let rec contains x = function
     Leaf -> false
-  | Node (y, l, r) -> 
-      if x = y then true 
+  | Node (y, l, r) ->
+      if x = y then true
                else if (x < y) then contains x l
                else contains x r
-               
+
 let insert_many = List.fold_left (fun acc x -> insert x acc) Leaf

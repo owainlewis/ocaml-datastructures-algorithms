@@ -7,12 +7,12 @@ module DiGraph = struct
   (* TODO parameterize this module *)
   type t = string
   type vertex = V of t * (t list ref)
-  type graph = vertex list ref 
+  type graph = vertex list ref
   let create() = ref []
   let ident v = let V (x, _) = v in x
-  let vertices g = List.map ident !g  
+  let vertices g = List.map ident !g
   let has_vertex g v = List.mem v (vertices g)
-  let add_vertex g v = 
+  let add_vertex g v =
     if has_vertex g v then g
     else
       let new_vertex = V (v, ref []) in
@@ -39,12 +39,12 @@ module DiGraph = struct
     | Some(vertex) -> let V (_, adjList) = vertex in !adjList
     | None -> raise VertexDoesNotExist
   (* Builds a directed graph from a list of edge pairs i.e [(1,2);(2,3)] etc *)
-  let build_directed_graph pairs = 
+  let build_directed_graph pairs =
     let g = create() in
     List.map (fun (src, dest) -> add_edge g src dest) pairs;
     g
 
-  let sample_graph = 
+  let sample_graph =
     let edges = [
       ("a", "b"); ("a", "c");
       ("a", "d"); ("b", "e");
@@ -58,7 +58,7 @@ module DiGraph = struct
       | x::xs ->
           if List.mem x visited then
             dfs graph visited xs
-          else 
+          else
             let frontier = (successors graph x) @ xs
             in dfs graph (x::visited) frontier
     in depth_first_search graph [] (start_state::[])
@@ -92,7 +92,7 @@ let topological_sort edges seed =
       in sort path v' nodes
   in sort [] [] [seed]
 
-module type ADJ = 
+module type ADJ =
   sig
     type t
     (* A graph represented as a mutable list of vertices *)
@@ -111,17 +111,17 @@ module type ADJ =
 module Graph = struct
   exception VertexDoesNotExist
   type t = int
-  type vertex = V of int * (int list ref) * (int list ref) 
+  type vertex = V of int * (int list ref) * (int list ref)
   type edge   = vertex * vertex * int
   type graph  = vertex list ref
   let create () = ref []
-  let vertices g = 
+  let vertices g =
     List.map (fun (v) -> let V (x,_,_) = v in x) !g
   (* TODO Duplication of logic *)
   let out_func v = let V (_,x,_) = v in !x
   let in_func v  = let V (_,_,x) = v in !x
-  let flatten_edges g f = 
-    let edges = List.map f !g in 
+  let flatten_edges g f =
+    let edges = List.map f !g in
     edges |> List.flatten
   let outgoing_edges g = flatten_edges g out_func
   let incoming_edges g = flatten_edges g in_func
@@ -137,13 +137,13 @@ module Graph = struct
       | V (x,_,_) as vtx :: xs -> if v = x then Some(vtx) else find xs v
     in find !graph vertex
   (* Core operations *)
-  let add_vertex graph v = 
+  let add_vertex graph v =
     let new_vertex = V (v, ref [], ref [])
     in graph := new_vertex :: !graph;
     graph
 
   (* Consider cost implications here as it's going to be a bit crappy *)
-  let add_incoming_edge graph src dest = 
+  let add_incoming_edge graph src dest =
     let vtx = find_vertex graph src in
     match vtx with
       | Some(v) -> let V (_,i,_) = v in i := dest :: !i; v
@@ -155,9 +155,8 @@ module Graph = struct
     | Some(v) -> let V (_, _, o) = v in o := dest :: !o; v
     | None    -> failwith "No matching vertex"
 
-  let add_undirected_edge graph src dest = 
+  let add_undirected_edge graph src dest =
     add_incoming_edge graph src dest;
     add_outgoing_edge graph src dest;
     graph;
 end
-

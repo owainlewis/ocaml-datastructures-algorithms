@@ -1,15 +1,13 @@
-module Dijkstra =
-  struct
+module Dijkstra = struct
 
-  type cost = Nan |
-              Cost of float
+  type cost = Nan | Cost of float
 
   type adj_mat = cost array array
 
   type 'a graph = { mutable ind : int;
                     size : int;
                     nodes : 'a array;
-                    m : adj_mat}
+                    m : adj_mat }
 
    let create_graph n s =
      { ind = 0; size = s; nodes = Array.make s n;
@@ -54,5 +52,4 @@ module Dijkstra =
           "D", "E", 60.];
        for i=0 to g.ind -1 do g.m.(i).(i) <- Cost 0.0 done;
         g;;
-
 end
