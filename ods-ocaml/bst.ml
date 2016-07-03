@@ -1,5 +1,4 @@
 (* OCaml Binary Search Trees *)
-
 type comparison = Less
 		| Equal
 		| Greater
