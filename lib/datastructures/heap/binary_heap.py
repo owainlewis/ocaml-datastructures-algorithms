@@ -85,4 +85,3 @@ class BinaryHeap:
         self.current_size = self.current_size - 1
         self.heap.pop()
         return self.heap
-        
