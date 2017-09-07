@@ -1,15 +1,6 @@
-# Python DSA
-
 from __future__ import print_function
 
-# ===================================================
-#
-# Python Binary Heap
-#
-# ===================================================
-
 class BinaryHeap:
-
     def __init__(self):
         # to make the maths easier array is indexed from 1 not 0
         self.heap         = [0]
@@ -38,8 +29,7 @@ class BinaryHeap:
     def right_child_index(self, i):
         """Returns the index of the left child node for a given node"""
         return (i * 2) + 1
-
-    # Swim UP the heap
+    
     def swim(self,i):
         """Swims an item up the heap to it's correct position so that it does not violate
            heap invariant"""
@@ -108,12 +98,6 @@ class BSTNode(object):
 
     def __repr__(self): 
         return "Node: < %s >" % self.key
-
-# ===================================================
-#
-# Binary search tree
-#
-# ===================================================
 
 class BST(object):
     """ A basic Binary Search Tree """
@@ -214,9 +198,6 @@ class BST(object):
     def print_tree_in_postorder(self):
         self.postorder_traversal(self.print_func, self.root)
         
-# AVL Tree
-##########################################
-
 class AVLTree(BST):
     def __init__(self):
         pass
