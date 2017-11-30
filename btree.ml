@@ -1,5 +1,3 @@
-(* Binary Trees *)
-
 type 'a tree =
   | Leaf
   | Node of 'a tree * 'a * 'a tree
@@ -30,7 +28,6 @@ let rec insert v = function
 	 else if v > item then Node(l, item, (insert v r))
 	 else Node(l, item, r)
 
-(* Tree deletion *)
 exception EmptyTree (* fail if calling delete on empty tree *)
 
 let rec delete_max = function
@@ -92,21 +89,17 @@ let rec left_sub_tree = function
 let rec right_sub_tree = function
   | Leaf -> []
   | Node(_,v,r) -> v :: right_sub_tree r
-
-(* Traversals *)
-(* *************************************************** *)
+  
 let sample_tree = make_tree [7;1;0;3;2;5;4;6;9;8;10];;
 
 let rec preorder = function
     Leaf -> []
   | Node(l,v,r) -> [v] @ (preorder l) @ (preorder r)
-
-let rec inorder = function
+and rec inorder = function
     Leaf -> []
   | Node(l,v,r) ->
       (inorder l) @ [v] @ (inorder r)
-
-let rec postorder = function
+and rec postorder = function
     Leaf -> []
   | Node(l,v,r) -> postorder l @ postorder r @ [v]
 
