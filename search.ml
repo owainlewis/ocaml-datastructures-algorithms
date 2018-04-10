@@ -1,5 +1,3 @@
-(* Search *)
-
 module type SEARCHALG = sig
   val linear : 'a -> 'a list -> 'a option
   val binary : 'a -> 'a list -> 'a option
