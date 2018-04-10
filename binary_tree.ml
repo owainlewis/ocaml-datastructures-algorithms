@@ -1,5 +1,3 @@
-(* BTree *)
-
 module type TREE =
 sig
   type 'a tree
