@@ -4,8 +4,6 @@ module type SEARCHALG = sig
 end
 
 module Search = struct
-
-  (* linear ~element:4 [1;2;3];; *)
   let rec linear ~element:v = function
     | [] -> None
     | x::xs -> if x = v then Some(x) else linear v xs
