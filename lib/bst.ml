@@ -1,6 +1,7 @@
 type 'a tree =
     | Leaf
     | Node of 'a tree * 'a * 'a tree
+                
 let empty = Leaf
 
 let rec insert v t = match t with
