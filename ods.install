@@ -1,19 +1,19 @@
 lib: [
   "_build/install/default/lib/ods/META" {"META"}
-  "_build/install/default/lib/ods/opam" {"opam"}
-  "_build/install/default/lib/ods/ods__Binary_tree.cmi" {"ods__Binary_tree.cmi"}
-  "_build/install/default/lib/ods/ods__Binary_tree.cmx" {"ods__Binary_tree.cmx"}
-  "_build/install/default/lib/ods/ods__Binary_tree.cmt" {"ods__Binary_tree.cmt"}
-  "_build/install/default/lib/ods/binary_tree.ml" {"binary_tree.ml"}
-  "_build/install/default/lib/ods/ods.cmi" {"ods.cmi"}
-  "_build/install/default/lib/ods/ods.cmx" {"ods.cmx"}
-  "_build/install/default/lib/ods/ods.cmt" {"ods.cmt"}
-  "_build/install/default/lib/ods/ods.ml-gen" {"ods.ml-gen"}
-  "_build/install/default/lib/ods/ods.cma" {"ods.cma"}
-  "_build/install/default/lib/ods/ods.cmxa" {"ods.cmxa"}
+  "_build/install/default/lib/ods/bst.ml" {"bst.ml"}
   "_build/install/default/lib/ods/ods.a" {"ods.a"}
+  "_build/install/default/lib/ods/ods.cma" {"ods.cma"}
+  "_build/install/default/lib/ods/ods.cmi" {"ods.cmi"}
+  "_build/install/default/lib/ods/ods.cmt" {"ods.cmt"}
+  "_build/install/default/lib/ods/ods.cmx" {"ods.cmx"}
+  "_build/install/default/lib/ods/ods.cmxa" {"ods.cmxa"}
   "_build/install/default/lib/ods/ods.cmxs" {"ods.cmxs"}
   "_build/install/default/lib/ods/ods.dune" {"ods.dune"}
+  "_build/install/default/lib/ods/ods.ml-gen" {"ods.ml-gen"}
+  "_build/install/default/lib/ods/ods__Bst.cmi" {"ods__Bst.cmi"}
+  "_build/install/default/lib/ods/ods__Bst.cmt" {"ods__Bst.cmt"}
+  "_build/install/default/lib/ods/ods__Bst.cmx" {"ods__Bst.cmx"}
+  "_build/install/default/lib/ods/opam" {"opam"}
 ]
 doc: [
   "_build/install/default/doc/ods/README.md"
