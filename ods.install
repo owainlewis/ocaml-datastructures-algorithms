@@ -13,7 +13,11 @@ lib: [
   "_build/install/default/lib/ods/ods__Bst.cmi" {"ods__Bst.cmi"}
   "_build/install/default/lib/ods/ods__Bst.cmt" {"ods__Bst.cmt"}
   "_build/install/default/lib/ods/ods__Bst.cmx" {"ods__Bst.cmx"}
+  "_build/install/default/lib/ods/ods__Red_black_tree.cmi" {"ods__Red_black_tree.cmi"}
+  "_build/install/default/lib/ods/ods__Red_black_tree.cmt" {"ods__Red_black_tree.cmt"}
+  "_build/install/default/lib/ods/ods__Red_black_tree.cmx" {"ods__Red_black_tree.cmx"}
   "_build/install/default/lib/ods/opam" {"opam"}
+  "_build/install/default/lib/ods/red_black_tree.ml" {"red_black_tree.ml"}
 ]
 doc: [
   "_build/install/default/doc/ods/README.md"
