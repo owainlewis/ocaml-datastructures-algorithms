@@ -6,11 +6,18 @@ let empty = Leaf
 
 let rec insert v t = match t with
   | Leaf -> Node(Leaf, v, Leaf)
-  | Node(l,x,r) ->
-    if v <= x then
-      Node((insert v l), x, r)
-    else
-      Node(l, x, (insert v r))
+  | Node(l,x,r) as t ->
+    if v < x then Node((insert v l), x, r)
+    else if v > x then Node(l, x, (insert v r))
+    else t;; (* Do nothing, duplicate key *)
+
+(** TODO delete a node from the tree **)
+let delete t = t
+  
+let rec min t = match t with
+  | Leaf -> None
+  | Node(l,x,_) ->
+      if l = Leaf then Some(x) else min l
 
 let rec member v = function
   | Leaf -> false
@@ -24,6 +31,10 @@ let rec height = function
   | Leaf -> 1
   | Node(l,_,r) -> max (1 + height l) (1 + height r)
 
-let rec tree_fold f acc = function
+(** Advanced traversals **)
+let rec fold f acc = function
   | Leaf -> acc
-  | Node(l,x,r) -> f x (tree_fold f acc l) (tree_fold f acc r)
+  | Node(l,x,r) -> f x (fold f acc l) (fold f acc r)
+
+(** Examples **)
+let example = insert 5 Leaf |> insert 4 |> insert 3
