@@ -9,7 +9,8 @@ let rec insert v t = match t with
   | Node(l,x,r) as t ->
     if v < x then Node((insert v l), x, r)
     else if v > x then Node(l, x, (insert v r))
-    else t;; (* Do nothing, duplicate key *)
+    (* Do nothing, duplicate key *)
+    else t 
 
 (** TODO delete a node from the tree **)
 let delete t = t
