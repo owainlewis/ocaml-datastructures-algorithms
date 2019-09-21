@@ -11,3 +11,7 @@ build: clean
 .PHONY: utop
 utop:
 	@dune utop lib
+
+.PHONY: test
+test: clean
+	@dune runtest

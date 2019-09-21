@@ -1,1 +1,3 @@
-(test (name ods))
+(tests
+  (names test_bst)
+  (libraries ounit))
