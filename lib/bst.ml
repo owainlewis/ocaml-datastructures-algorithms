@@ -44,8 +44,12 @@ let rec delete value tree =
       (* node to be deleted has only one child *)
       else if l = Leaf then r
       else if r = Leaf then l        
-      else let m = min_value l in
-           let n = delete m r in Node(l,m,n) 
+      else
+        (* find a minimum value in the right subtree *)
+        (* replace value of the node to be removed with found minimum. Now, right subtree contains a duplicate! *)
+        (* apply remove to the right subtree to remove a duplicate. *)
+        let m = min_value r in
+        let n = delete m r in Node(l,m,n) 
     else if value < x then 
       let lhs = delete value l in Node(lhs,x,r)
     else
