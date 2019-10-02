@@ -2,10 +2,12 @@ B /Users/owainlewis/.opam/system/lib/bytes
 B /Users/owainlewis/.opam/system/lib/oUnit
 B /Users/owainlewis/.opam/system/lib/ounit
 B /usr/local/lib/ocaml
-B ../_build/default/test/.test_bst.eobjs
+B ../_build/default/lib/.ods.objs
+B ../_build/default/test/.test_sort.eobjs
 S /Users/owainlewis/.opam/system/lib/bytes
 S /Users/owainlewis/.opam/system/lib/oUnit
 S /Users/owainlewis/.opam/system/lib/ounit
 S /usr/local/lib/ocaml
+S ../lib
 S .
 FLG -w @a-4-29-40-41-42-44-45-48-58-59-60-40 -strict-sequence -strict-formats -short-paths -keep-locs

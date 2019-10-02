@@ -1,5 +1,3 @@
-(** Sorting Algorithms **)
-
 let rec bubble xs =
   let rec aux ys = match ys with
     | []    -> []
