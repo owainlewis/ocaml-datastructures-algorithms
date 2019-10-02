@@ -22,4 +22,4 @@ let rec insertion xs =
   | [] -> []
   | [x] -> [x]
   | v::vs -> aux v (insertion vs)
-            
+  
