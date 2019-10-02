@@ -20,8 +20,9 @@ type 'a tree =
   | Leaf
   | Node of color * 'a * 'a tree * 'a tree
 
-let rec member x = function
-    Leaf -> false
+let rec member x tree =
+  match tree with
+  | Leaf -> false
   | Node (_, value, left, right) ->
     if x == value then true
     else if x < value then member x left

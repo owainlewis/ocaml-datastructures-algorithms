@@ -69,10 +69,11 @@ let rec height = function
   | Node(l,_,r) -> max (1 + height l) (1 + height r)
 
 (** Advanced traversals **)
-let rec fold f acc = function
+let rec fold f acc tree =
+  match tree with
   | Leaf -> acc
   | Node(l,x,r) -> f x (fold f acc l) (fold f acc r)
 
 (** Construct a new tree from a list of values **)
-let build xs = List.fold_left (fun x y -> insert y x) Leaf xs
-
+let build xs =
+  List.fold_left (fun x y -> insert y x) Leaf xs
