@@ -7,7 +7,7 @@ let rec bubble xs =
   in
   let sweep = aux xs in
   if sweep = xs
-    then sweep
+  then sweep
   else bubble sweep
 
 let rec insertion xs =
@@ -16,10 +16,16 @@ let rec insertion xs =
     | [] -> [v]
     | z::zs as l ->
       if v < z
-        then v :: l
-        else z :: (aux v zs)
+      then v :: l
+      else z :: (aux v zs)
   in match xs with
   | [] -> []
   | [x] -> [x]
   | v::vs -> aux v (insertion vs)
-  
+
+let rec quick_sort = function
+  | [] -> []
+  | x::xs -> let smaller, larger = List.partition (fun y -> y < x) xs
+    in let x = (quick_sort smaller)
+    and y = (x::quick_sort larger)
+    in x @ y
