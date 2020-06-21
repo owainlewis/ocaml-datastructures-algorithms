@@ -1,5 +1,3 @@
-exception Unknown
-
 type 'a tree =
   | Leaf
   | Node of 'a tree * 'a * 'a tree
@@ -9,9 +7,8 @@ let node x = Node(leaf, x, leaf)
 
 let rec min_value tree =
   match tree with
-  | Leaf -> raise Unknown
-  | Node(l,x,_) ->
-    if l = Leaf then x else min_value l
+  | Leaf -> 0
+  | Node(l,x,_) -> if l = Leaf then x else min_value l
 
 let rec max_value tree =
   match tree with

@@ -23,7 +23,7 @@ let rec insertion xs =
   | [x] -> [x]
   | v::vs -> aux v (insertion vs)
 
-let rec quick_sort = function
+let rec quick_sort: 'a list -> 'a list = function
   | [] -> []
   | x::xs -> let smaller, larger = List.partition (fun y -> y < x) xs
     in let x = (quick_sort smaller)
