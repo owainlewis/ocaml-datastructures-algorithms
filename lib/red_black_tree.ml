@@ -12,7 +12,7 @@
  *
  * ****************************************************************** *)
 
-exception Insert_error of string
+exception Insert of string
 
 type color = Red | Black
 
@@ -49,4 +49,4 @@ let insert x s =
     Node (_, y, a, b) ->
     Node (Black, y, a, b)
   | Leaf -> (* guaranteed to be nonempty *)
-    raise (Insert_error "RBT insert failed with ins returning leaf")
+    raise (Insert "Red Black Tree insertion failed with `ins` returning leaf")

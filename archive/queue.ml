@@ -14,10 +14,6 @@ module type QUEUE = sig
   val front : 'a queue -> 'a
 end
 
-module type MUTQ = sig
-
-end
-
 module AppendListQueue : QUEUE = struct
 
   exception EmptyQueue
@@ -37,16 +33,23 @@ module AppendListQueue : QUEUE = struct
   let front q = fst (deq q)
 end
 
-module MutableQueue : MUTQ = struct
-
-  exception EmptyQueue
-
-  let q = ref []
-  let empty() = q
-  let enqueue v = q := !q @ [v]
-  let deq = function
-    | [] -> raise EmptyQueue
-    | x::xs -> (x,xs)
-  let dequeue() = q := snd (deq !q)
-  let front() = fst (deq !q)
-end
+(* (\** Need to implement module sig **\)
+ * module MutableQueue = struct
+ *
+ *   exception EmptyQueue
+ *
+ *   type 'a queue = 'a ref
+ *
+ *   let q = ref []
+ *   let empty() = q
+ *   let enqueue v q = q := !q @ [v]
+ *   let deq = function
+ *     | [] -> raise EmptyQueue
+ *     | x::xs -> (x,xs)
+ *   let dequeue() = q := snd (deq !q)
+ *   let front() = fst (deq !q)
+ *
+ *   let is_empty = function
+ *     | [] -> true
+ *     | _  -> false
+ * end *)

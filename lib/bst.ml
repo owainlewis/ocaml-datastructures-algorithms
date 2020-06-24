@@ -1,3 +1,21 @@
+exception Unknown
+
+type comparison = Lt
+		| Eq
+		| Gt
+
+module type ORDERED_TYPE =
+sig
+  type t
+  val cmp: t -> t -> comparison
+end
+
+module BinarySearchTree = functor (Elt: ORDERED_TYPE) -> struct
+  type t = Elt.t
+  type bst = Empty
+           | Node of t * bst * bst
+end
+
 type 'a tree =
   | Leaf
   | Node of 'a tree * 'a * 'a tree
