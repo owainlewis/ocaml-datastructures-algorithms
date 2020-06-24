@@ -1,13 +1,14 @@
+EXCLUDE_QUERY_DIR
 B /Users/owainlewis/.opam/system/lib/bytes
 B /Users/owainlewis/.opam/system/lib/oUnit
 B /Users/owainlewis/.opam/system/lib/ounit
 B /usr/local/lib/ocaml
-B ../_build/default/lib/.ods.objs
-B ../_build/default/test/.test_sort.eobjs
+B ../_build/default/src/.ods.objs/byte
+B ../_build/default/test/.test_sort.eobjs/byte
 S /Users/owainlewis/.opam/system/lib/bytes
 S /Users/owainlewis/.opam/system/lib/oUnit
 S /Users/owainlewis/.opam/system/lib/ounit
 S /usr/local/lib/ocaml
-S ../lib
+S ../src
 S .
-FLG -w @a-4-29-40-41-42-44-45-48-58-59-60-40 -strict-sequence -strict-formats -short-paths -keep-locs
+FLG -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs
