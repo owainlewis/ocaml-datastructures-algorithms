@@ -7,3 +7,4 @@ let rec merge_list l1 l2 =
       | [] -> l1
       | (h::t) when a <= h -> a::(merge_list l2 b)
       | (h::t) -> h::(merge_list l1 t))
+      
