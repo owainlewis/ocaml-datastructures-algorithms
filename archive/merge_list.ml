@@ -1,4 +1,4 @@
-(* Merge two sorted lists, lst1 and lst2, and return the result as a sorted list *)
+(* Merge two sorted lists, l1 and l2, and return the result as a sorted list *)
 
 let rec merge_list l1 l2 =
   match l1 with 
