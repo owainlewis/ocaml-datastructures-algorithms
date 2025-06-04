@@ -1,0 +1,3 @@
+(library
+ (name sorting)
+ (public_name ods.sorting))

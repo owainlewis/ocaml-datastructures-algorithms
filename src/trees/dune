@@ -1,0 +1,3 @@
+(library
+ (name trees)
+ (public_name ods.trees))
