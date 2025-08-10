@@ -1,6 +1,8 @@
 # OCaml Data Structures and Algorithms
 
-A comprehensive library of data structures and algorithms implemented in OCaml. This library is designed for educational purposes to demonstrate how common data structures and algorithms can be implemented in a functional programming language.
+A comprehensive library of data structures and algorithms implemented in OCaml. 
+
+This library is designed for educational purposes to demonstrate how common data structures and algorithms can be implemented in a functional programming language.
 
 ## Data Structures
 
