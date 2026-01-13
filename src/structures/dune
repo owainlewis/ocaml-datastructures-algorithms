@@ -1,0 +1,3 @@
+(library
+ (name structures)
+ (public_name ods.structures))

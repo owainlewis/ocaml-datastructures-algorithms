@@ -28,18 +28,18 @@ end
 
 module Heap = struct
   let sort = Heap_sort.sort
-  let sort_list = Heap_sort.sort_list
+  let sort_array = Heap_sort.sort_array
 end
 
 module Counting = struct
   let sort = Counting_sort.sort
-  let sort_list = Counting_sort.sort_list
+  let sort_array = Counting_sort.sort_array
   let sort_non_negative = Counting_sort.sort_non_negative
 end
 
 module Radix = struct
   let sort = Radix_sort.sort
-  let sort_list = Radix_sort.sort_list
+  let sort_array = Radix_sort.sort_array
   let sort_non_negative = Radix_sort.sort_non_negative
 end
 
@@ -71,4 +71,4 @@ let sort_array arr =
         Quick.sort_random_pivot arr
       (* For larger arrays, use heap sort as it guarantees O(n log n) worst case *)
       else
-        Heap.sort arr
+        Heap.sort_array arr

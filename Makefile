@@ -10,7 +10,7 @@ build: clean
 
 .PHONY: utop
 utop:
-	@dune utop lib
+	@dune utop src
 
 .PHONY: test
 test: clean

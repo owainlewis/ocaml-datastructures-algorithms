@@ -22,22 +22,20 @@ let rec sort = function
 (* Bubble sort for arrays (in-place) *)
 let sort_array arr =
   let n = Array.length arr in
-  
-  for i = 0 to n - 1 do
-    let swapped = ref false in
-    
-    for j = 0 to n - i - 2 do
+  let sorted = ref false in
+  let i = ref 0 in
+
+  while not !sorted && !i < n - 1 do
+    sorted := true;
+    for j = 0 to n - !i - 2 do
       if arr.(j) > arr.(j + 1) then (
         let temp = arr.(j) in
         arr.(j) <- arr.(j + 1);
         arr.(j + 1) <- temp;
-        swapped := true
+        sorted := false
       )
     done;
-    
-    (* If no swapping occurred in this pass, array is sorted *)
-    if not !swapped then
-      i <- n
+    incr i
   done;
-  
+
   arr

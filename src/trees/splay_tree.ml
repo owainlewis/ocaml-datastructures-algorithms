@@ -7,57 +7,53 @@ type 'a tree =
   | Empty
   | Node of 'a tree * 'a * 'a tree
 
-(* Right rotation *)
-let right_rotate = function
-  | Node(Node(a, x, b), y, c) -> Node(a, x, Node(b, y, c))
-  | t -> t
-
-(* Left rotation *)
-let left_rotate = function
-  | Node(a, x, Node(b, y, c)) -> Node(Node(a, x, b), y, c)
-  | t -> t
-
 (* Splay operation - brings the target key to the root *)
 let rec splay key = function
   | Empty -> Empty
   | Node(l, k, r) as t ->
-      if key = k then
-        (* Found the key, return the tree *)
-        t
+      if key = k then t
       else if key < k then
         match l with
-        | Empty -> t  (* Key not in tree *)
+        | Empty -> t  (* Key not in tree, return as is *)
         | Node(ll, lk, lr) ->
             if key = lk then
-              (* Zig: key is in left child, rotate right *)
-              right_rotate t
+              (* Zig: rotate right *)
+              Node(ll, lk, Node(lr, k, r))
             else if key < lk then
-              (* Zig-Zig: key is in left-left grandchild *)
+              (* Zig-Zig: splay in left-left, then double rotate right *)
               match splay key ll with
-              | Empty -> t
-              | splayed -> right_rotate (right_rotate (Node(splayed, lk, lr)))
+              | Empty -> Node(ll, lk, Node(lr, k, r))  (* Key not found *)
+              | splayed_ll ->
+                  Node(splayed_ll, lk, Node(lr, k, r)) |> function
+                    | Node(Node(a, x, b), y, c) -> Node(a, x, Node(b, y, c))
+                    | t -> t
             else
-              (* Zig-Zag: key is in left-right grandchild *)
+              (* Zig-Zag: splay in left-right, then rotate *)
               match splay key lr with
-              | Empty -> t
-              | splayed -> right_rotate (Node(ll, lk, Node(splayed, k, r)))
+              | Empty -> Node(ll, lk, Node(lr, k, r))  (* Key not found *)
+              | Node(lrl, lrk, lrr) ->
+                  Node(Node(ll, lk, lrl), lrk, Node(lrr, k, r))
       else
         match r with
-        | Empty -> t  (* Key not in tree *)
+        | Empty -> t  (* Key not in tree, return as is *)
         | Node(rl, rk, rr) ->
             if key = rk then
-              (* Zig: key is in right child, rotate left *)
-              left_rotate t
+              (* Zig: rotate left *)
+              Node(Node(l, k, rl), rk, rr)
             else if key > rk then
-              (* Zig-Zig: key is in right-right grandchild *)
+              (* Zig-Zig: splay in right-right, then double rotate left *)
               match splay key rr with
-              | Empty -> t
-              | splayed -> left_rotate (left_rotate (Node(l, k, Node(rl, rk, splayed))))
+              | Empty -> Node(Node(l, k, rl), rk, rr)  (* Key not found *)
+              | splayed_rr ->
+                  Node(Node(l, k, rl), rk, splayed_rr) |> function
+                    | Node(a, x, Node(b, y, c)) -> Node(Node(a, x, b), y, c)
+                    | t -> t
             else
-              (* Zig-Zag: key is in right-left grandchild *)
+              (* Zig-Zag: splay in right-left, then rotate *)
               match splay key rl with
-              | Empty -> t
-              | splayed -> left_rotate (Node(Node(l, k, splayed), rk, rr))
+              | Empty -> Node(Node(l, k, rl), rk, rr)  (* Key not found *)
+              | Node(rll, rlk, rlr) ->
+                  Node(Node(l, k, rll), rlk, Node(rlr, rk, rr))
 
 (* Insert a key into the splay tree *)
 let insert key tree =
@@ -68,16 +64,20 @@ let insert key tree =
         else if k < k' then Node(insert_bst k l, k', r)
         else Node(l, k', insert_bst k r)
   in
-  
-  let inserted = insert_bst key tree in
-  splay key inserted
+  splay key (insert_bst key tree)
 
-(* Find a key in the splay tree *)
+(* Find a key in the splay tree - returns (found, new_tree) *)
 let find key tree =
   let splayed = splay key tree in
   match splayed with
   | Empty -> (false, splayed)
   | Node(_, k, _) -> (k = key, splayed)
+
+(* Find the maximum key in a tree *)
+let rec find_max = function
+  | Empty -> None
+  | Node(_, k, Empty) -> Some k
+  | Node(_, _, r) -> find_max r
 
 (* Delete a key from the splay tree *)
 let delete key tree =
@@ -85,25 +85,31 @@ let delete key tree =
   match splayed with
   | Empty -> Empty
   | Node(l, k, r) ->
-      if k <> key then splayed
+      if k <> key then splayed  (* Key not found *)
       else
-        match l, r with
-        | Empty, _ -> r
-        | _, Empty -> l
-        | _, _ ->
-            (* Find the largest in the left subtree *)
-            let max_l = splay max_int l in
-            match max_l with
-            | Empty -> failwith "Impossible: max_l is Empty"
-            | Node(l', max_key, Empty) ->
-                Node(l', max_key, r)
-            | Node(l', max_key, r') ->
-                failwith "Impossible: max_l has a right child"
+        match l with
+        | Empty -> r
+        | _ ->
+            (* Splay the max of left subtree to root of left *)
+            match find_max l with
+            | None -> r
+            | Some max_key ->
+                let new_left = splay max_key l in
+                match new_left with
+                | Node(ll, lk, Empty) -> Node(ll, lk, r)
+                | Node(ll, lk, _) -> Node(ll, lk, r)  (* Should not happen after splay *)
+                | Empty -> r
 
 (* Check if a key exists in the tree *)
 let member key tree =
-  let found, _ = find key tree in
-  found
+  let rec mem k = function
+    | Empty -> false
+    | Node(l, k', r) ->
+        if k = k' then true
+        else if k < k' then mem k l
+        else mem k r
+  in
+  mem key tree
 
 (* Build a splay tree from a list *)
 let build xs =

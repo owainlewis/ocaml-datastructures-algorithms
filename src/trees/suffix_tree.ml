@@ -1,16 +1,15 @@
-(* Suffix Tree Implementation - Ukkonen's Algorithm *)
+(* Suffix Tree Implementation - Simple construction *)
 
 module CharMap = Map.Make(Char)
 
 type node = {
-  mutable suffix_link: node option;
   mutable children: edge CharMap.t;
+  mutable is_end: bool;
   id: int;
 }
 
 and edge = {
-  start: int;
-  mutable end_pos: int ref;
+  label: string;
   target: node;
 }
 
@@ -21,250 +20,152 @@ type t = {
 }
 
 (* Create a new node *)
-let create_node ~suffix_link ~id = {
-  suffix_link;
+let create_node id = {
   children = CharMap.empty;
+  is_end = false;
   id;
 }
 
-(* Create a new suffix tree *)
-let create text =
-  let root = create_node ~suffix_link:None ~id:0 in
-  let tree = { text; root; node_count = 1 } in
-  
-  let global_end = ref (-1) in
-  
-  (* Helper function to get character at position *)
-  let char_at pos = text.[pos] in
-  
-  (* Helper function to add a new edge *)
-  let add_edge parent_node start_pos end_pos target_node =
-    let c = char_at start_pos in
-    let edge = { start = start_pos; end_pos; target = target_node } in
-    parent_node.children <- CharMap.add c edge parent_node.children
+(* Find the longest common prefix of two strings *)
+let common_prefix s1 s2 =
+  let len = min (String.length s1) (String.length s2) in
+  let rec aux i =
+    if i >= len then i
+    else if s1.[i] = s2.[i] then aux (i + 1)
+    else i
   in
-  
-  (* Traverse from a node following the given substring *)
-  let rec traverse node str_pos end_pos =
-    if str_pos > end_pos then
-      (node, str_pos) (* Reached the end of the string *)
-    else
-      let c = char_at str_pos in
-      match CharMap.find_opt c node.children with
-      | None -> (node, str_pos) (* No path to follow *)
-      | Some edge ->
-          let edge_len = !(edge.end_pos) - edge.start + 1 in
-          let str_len = end_pos - str_pos + 1 in
-          
-          if str_len < edge_len then
-            (* String ends within this edge *)
-            (node, str_pos)
-          else
-            (* Continue traversal from the target node *)
-            traverse edge.target (str_pos + edge_len) end_pos
-  in
-  
-  (* Find the end of the matching prefix on an edge *)
-  let find_match_end edge_start str_pos str_end =
-    let rec match_chars i j =
-      if i > str_end || j > !(global_end) then
-        i - str_pos (* Length of match *)
-      else if char_at i = char_at j then
-        match_chars (i + 1) (j + 1)
-      else
-        i - str_pos (* Length of match before mismatch *)
-    in
-    match_chars str_pos edge_start
-  in
-  
-  (* Split an edge at the given position *)
-  let split_edge parent edge split_pos =
-    let new_node = create_node ~suffix_link:None ~id:(tree.node_count) in
-    tree.node_count <- tree.node_count + 1;
-    
-    let new_edge_start = edge.start + split_pos in
-    
-    (* Update parent's child pointer *)
-    let c = char_at edge.start in
-    let new_parent_edge = { 
-      start = edge.start; 
-      end_pos = ref (new_edge_start - 1); 
-      target = new_node 
-    } in
-    parent.children <- CharMap.add c new_parent_edge parent.children;
-    
-    (* Add edge from new node to old target *)
-    let c = char_at new_edge_start in
-    let new_child_edge = { 
-      start = new_edge_start; 
-      end_pos = edge.end_pos; 
-      target = edge.target 
-    } in
-    new_node.children <- CharMap.add c new_child_edge CharMap.empty;
-    
-    new_node
-  in
-  
-  (* Phase i: add all suffixes of text[0..i] *)
-  let rec phase i =
-    global_end := i;
-    
-    let rec extend_phase j =
-      if j > i then ()
-      else
-        let (origin, start_pos) = traverse tree.root j i in
-        
-        if start_pos > i then
-          (* This suffix is already in the tree *)
-          extend_phase (j + 1)
+  aux 0
+
+(* Insert a suffix into the tree *)
+let rec insert_suffix tree node suffix =
+  if String.length suffix = 0 then
+    node.is_end <- true
+  else
+    let c = suffix.[0] in
+    match CharMap.find_opt c node.children with
+    | None ->
+        (* No edge starting with this character, create one *)
+        let new_node = create_node tree.node_count in
+        tree.node_count <- tree.node_count + 1;
+        new_node.is_end <- true;
+        let edge = { label = suffix; target = new_node } in
+        node.children <- CharMap.add c edge node.children
+    | Some edge ->
+        let prefix_len = common_prefix edge.label suffix in
+        if prefix_len = String.length edge.label then
+          (* Entire edge label matches, continue down the tree *)
+          insert_suffix tree edge.target (String.sub suffix prefix_len (String.length suffix - prefix_len))
         else
-          (* Need to add this suffix *)
-          if start_pos = j then
-            (* Suffix starts at root *)
-            let new_leaf = create_node ~suffix_link:None ~id:(tree.node_count) in
-            tree.node_count <- tree.node_count + 1;
-            add_edge origin start_pos (ref i) new_leaf;
-            extend_phase (j + 1)
+          (* Need to split the edge *)
+          let split_node = create_node tree.node_count in
+          tree.node_count <- tree.node_count + 1;
+
+          (* Edge from split_node to original target *)
+          let remaining_label = String.sub edge.label prefix_len (String.length edge.label - prefix_len) in
+          let old_edge = { label = remaining_label; target = edge.target } in
+          split_node.children <- CharMap.add remaining_label.[0] old_edge CharMap.empty;
+
+          (* Update the edge from parent to split_node *)
+          let new_parent_edge = { label = String.sub edge.label 0 prefix_len; target = split_node } in
+          node.children <- CharMap.add c new_parent_edge node.children;
+
+          (* Insert the remaining suffix *)
+          let remaining_suffix = String.sub suffix prefix_len (String.length suffix - prefix_len) in
+          if String.length remaining_suffix = 0 then
+            split_node.is_end <- true
           else
-            (* Suffix starts on an edge *)
-            let c = char_at start_pos in
-            let edge = CharMap.find c origin.children in
-            let match_len = find_match_end edge.start start_pos i in
-            
-            if match_len = i - start_pos + 1 then
-              (* Suffix is already in the tree *)
-              extend_phase (j + 1)
-            else
-              (* Split the edge and add a new leaf *)
-              let split_node = split_edge origin edge match_len in
-              let new_leaf = create_node ~suffix_link:None ~id:(tree.node_count) in
-              tree.node_count <- tree.node_count + 1;
-              add_edge split_node (start_pos + match_len) (ref i) new_leaf;
-              extend_phase (j + 1)
-    in
-    
-    extend_phase 0;
-    if i + 1 < String.length text then
-      phase (i + 1)
-  in
-  
-  (* Start building the tree *)
-  if String.length text > 0 then
-    phase 0;
-  
+            insert_suffix tree split_node remaining_suffix
+
+(* Create a new suffix tree from a string *)
+let create text =
+  let root = create_node 0 in
+  let tree = { text; root; node_count = 1 } in
+
+  (* Insert all suffixes *)
+  for i = 0 to String.length text - 1 do
+    let suffix = String.sub text i (String.length text - i) in
+    insert_suffix tree root suffix
+  done;
+
   tree
 
 (* Check if a pattern exists in the text *)
 let contains tree pattern =
-  let rec traverse node pattern_pos =
-    if pattern_pos >= String.length pattern then
+  let rec search node remaining =
+    if String.length remaining = 0 then
       true
     else
-      let c = pattern.[pattern_pos] in
+      let c = remaining.[0] in
       match CharMap.find_opt c node.children with
       | None -> false
       | Some edge ->
-          let edge_len = !(edge.end_pos) - edge.start + 1 in
-          let remaining_len = String.length pattern - pattern_pos in
-          
-          if remaining_len <= edge_len then
-            (* Pattern ends on this edge, check if it matches *)
-            let rec check_match i j count =
-              if count = 0 then true
-              else if i >= String.length tree.text || j >= String.length pattern then
-                false
-              else if tree.text.[i] = pattern.[j] then
-                check_match (i + 1) (j + 1) (count - 1)
-              else
-                false
-            in
-            check_match edge.start pattern_pos remaining_len
+          let prefix_len = common_prefix edge.label remaining in
+          if prefix_len = String.length remaining then
+            (* Pattern is fully matched within or at end of this edge *)
+            true
+          else if prefix_len = String.length edge.label then
+            (* Edge fully matched, continue to child *)
+            search edge.target (String.sub remaining prefix_len (String.length remaining - prefix_len))
           else
-            (* Follow the edge and continue matching *)
-            let rec check_edge i j count =
-              if count = 0 then
-                traverse edge.target (pattern_pos + edge_len)
-              else if tree.text.[i] <> pattern.[j] then
-                false
-              else
-                check_edge (i + 1) (j + 1) (count - 1)
-            in
-            check_edge edge.start pattern_pos edge_len
+            (* Mismatch within the edge *)
+            false
   in
-  
-  traverse tree.root 0
+  search tree.root pattern
 
-(* Find all occurrences of a pattern in the text *)
+(* Find all starting positions of a pattern in the text *)
 let find_all tree pattern =
-  let rec traverse node pattern_pos path_start =
-    if pattern_pos >= String.length pattern then
-      (* Found a match, collect all leaf positions below this node *)
-      let rec collect_leaves node acc =
-        if CharMap.is_empty node.children then
-          (* This is a leaf, add its position *)
-          (path_start - pattern_pos) :: acc
-        else
-          (* Collect leaves from all children *)
-          CharMap.fold 
-            (fun _ edge acc -> collect_leaves edge.target acc) 
-            node.children 
-            acc
-      in
-      collect_leaves node []
+  (* First, find the node where the pattern ends *)
+  let rec find_pattern_node node remaining depth =
+    if String.length remaining = 0 then
+      Some (node, depth)
     else
-      (* Continue matching the pattern *)
-      let c = pattern.[pattern_pos] in
+      let c = remaining.[0] in
       match CharMap.find_opt c node.children with
-      | None -> []
+      | None -> None
       | Some edge ->
-          let edge_len = !(edge.end_pos) - edge.start + 1 in
-          let remaining_len = String.length pattern - pattern_pos in
-          
-          if remaining_len <= edge_len then
-            (* Pattern ends on this edge, check if it matches *)
-            let matches = ref true in
-            for i = 0 to remaining_len - 1 do
-              if pattern.[pattern_pos + i] <> tree.text.[edge.start + i] then
-                matches := false
-            done;
-            
-            if !matches then
-              (* Continue to collect all leaves *)
-              let new_node = 
-                if remaining_len = edge_len then edge.target
-                else node
-              in
-              traverse new_node (pattern_pos + remaining_len) (path_start + remaining_len)
-            else
-              []
+          let prefix_len = common_prefix edge.label remaining in
+          if prefix_len = String.length remaining then
+            (* Pattern ends within this edge *)
+            Some (edge.target, depth + prefix_len)
+          else if prefix_len = String.length edge.label then
+            (* Full edge match, continue *)
+            find_pattern_node edge.target
+              (String.sub remaining prefix_len (String.length remaining - prefix_len))
+              (depth + prefix_len)
           else
-            (* Need to match the entire edge first *)
-            let matches = ref true in
-            for i = 0 to edge_len - 1 do
-              if pattern.[pattern_pos + i] <> tree.text.[edge.start + i] then
-                matches := false
-            done;
-            
-            if !matches then
-              traverse edge.target (pattern_pos + edge_len) (path_start + edge_len)
-            else
-              []
+            None
   in
-  
-  traverse tree.root 0 0
+
+  (* Collect all leaf positions under a node *)
+  let rec collect_positions node current_depth acc =
+    let acc' =
+      if CharMap.is_empty node.children then
+        (* Leaf node - calculate starting position *)
+        (String.length tree.text - current_depth) :: acc
+      else
+        acc
+    in
+    CharMap.fold (fun _ edge acc ->
+      collect_positions edge.target (current_depth + String.length edge.label) acc
+    ) node.children acc'
+  in
+
+  match find_pattern_node tree.root pattern 0 with
+  | None -> []
+  | Some (node, depth) ->
+      collect_positions node depth []
 
 (* Visualize the suffix tree (for debugging) *)
 let visualize tree =
   let rec visualize_node node depth =
     let indent = String.make (depth * 2) ' ' in
-    Printf.printf "%sNode %d\n" indent node.id;
-    
+    Printf.printf "%sNode %d%s\n" indent node.id (if node.is_end then " [end]" else "");
+
     CharMap.iter (fun c edge ->
-      let edge_str = String.sub tree.text edge.start (!(edge.end_pos) - edge.start + 1) in
-      Printf.printf "%s  %c -> \"%s\" (pos: %d-%d)\n" 
-        indent c edge_str edge.start !(edge.end_pos);
+      Printf.printf "%s  '%c' -> \"%s\"\n" indent c edge.label;
       visualize_node edge.target (depth + 1)
     ) node.children
   in
-  
+
+  Printf.printf "Suffix tree for: \"%s\"\n" tree.text;
   visualize_node tree.root 0

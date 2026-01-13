@@ -1,4 +1,4 @@
 (library
  (name ods)
  (public_name ods)
- (libraries sorting trees))
+ (libraries sorting trees structures))

@@ -30,24 +30,24 @@ let sort_non_negative arr =
     arr
 
 (* Counting sort for array of integers (can handle negative values) *)
-let sort arr =
+let sort_array arr =
   if Array.length arr = 0 then arr
   else
     (* Find minimum and maximum elements *)
     let min_val = Array.fold_left min Int.max_int arr in
-    let max_val = Array.fold_left max Int.min_int arr in
-    
+    let _max_val = Array.fold_left max Int.min_int arr in
+
     (* Shift all values to be non-negative *)
     let shifted = Array.map (fun x -> x - min_val) arr in
-    
+
     (* Apply counting sort on shifted array *)
     let _ = sort_non_negative shifted in
-    
+
     (* Shift back to original values *)
     Array.map (fun x -> x + min_val) shifted
 
 (* Counting sort for list of integers *)
-let sort_list lst =
+let sort lst =
   let arr = Array.of_list lst in
-  let sorted = sort arr in
+  let sorted = sort_array arr in
   Array.to_list sorted

@@ -1,9 +1,35 @@
-open OUnit
+open OUnit2
 open Ods
+
+let test_bst = "Binary Search Tree" >:::
+[
+  "insert and member" >:: (fun _ ->
+    let t = Trees.BST.build [5; 3; 8; 1; 4; 7; 10] in
+    assert_bool "Should contain 5" (Trees.BST.member 5 t);
+    assert_bool "Should contain 1" (Trees.BST.member 1 t);
+    assert_bool "Should contain 10" (Trees.BST.member 10 t);
+    assert_bool "Should not contain 6" (not (Trees.BST.member 6 t));
+  );
+
+  "delete" >:: (fun _ ->
+    let t = Trees.BST.build [5; 3; 8; 1; 4; 7; 10] in
+    let t' = Trees.BST.delete 5 t in
+    assert_bool "Should not contain 5" (not (Trees.BST.member 5 t'));
+    assert_bool "Should still contain 8" (Trees.BST.member 8 t'));
+
+  "inorder traversal" >:: (fun _ ->
+    let t = Trees.BST.build [5; 3; 8; 1; 4; 7; 10] in
+    assert_equal (Trees.BST.inorder t) [1; 3; 4; 5; 7; 8; 10]);
+
+  "min and max value" >:: (fun _ ->
+    let t = Trees.BST.build [5; 3; 8; 1; 4; 7; 10] in
+    assert_equal (Trees.BST.min_value t) 1;
+    assert_equal (Trees.BST.max_value t) 10);
+]
 
 let test_avl_tree = "AVL Tree" >:::
 [
-  "insert and member" >:: (fun () ->
+  "insert and member" >:: (fun _ ->
     let t = Trees.AVL.build [5; 3; 8; 1; 4; 7; 10] in
     assert_bool "Should contain 5" (Trees.AVL.member 5 t);
     assert_bool "Should contain 1" (Trees.AVL.member 1 t);
@@ -11,21 +37,21 @@ let test_avl_tree = "AVL Tree" >:::
     assert_bool "Should not contain 6" (not (Trees.AVL.member 6 t));
   );
   
-  "delete" >:: (fun () ->
+  "delete" >:: (fun _ ->
     let t = Trees.AVL.build [5; 3; 8; 1; 4; 7; 10] in
     let t' = Trees.AVL.delete 5 t in
     assert_bool "Should not contain 5" (not (Trees.AVL.member 5 t'));
     assert_bool "Should still contain 8" (Trees.AVL.member 8 t');
   );
   
-  "inorder traversal" >:: (fun () ->
+  "inorder traversal" >:: (fun _ ->
     let t = Trees.AVL.build [5; 3; 8; 1; 4; 7; 10] in
     assert_equal (Trees.AVL.inorder t) [1; 3; 4; 5; 7; 8; 10]);
 ]
 
 let test_trie = "Trie" >:::
 [
-  "insert and search" >:: (fun () ->
+  "insert and search" >:: (fun _ ->
     let t = Trees.Trie.empty in
     let t = Trees.Trie.insert "hello" t in
     let t = Trees.Trie.insert "world" t in
@@ -36,14 +62,14 @@ let test_trie = "Trie" >:::
     assert_bool "Should not contain bye" (not (Trees.Trie.search "bye" t));
   );
   
-  "starts_with" >:: (fun () ->
+  "starts_with" >:: (fun _ ->
     let t = Trees.Trie.build_from_list ["hello"; "hell"; "hemisphere"; "world"] in
     assert_bool "Should find prefix he" (Trees.Trie.starts_with "he" t);
     assert_bool "Should find prefix hell" (Trees.Trie.starts_with "hell" t);
     assert_bool "Should not find prefix bye" (not (Trees.Trie.starts_with "bye" t));
   );
   
-  "get_all_words" >:: (fun () ->
+  "get_all_words" >:: (fun _ ->
     let t = Trees.Trie.build_from_list ["cat"; "car"; "cart"] in
     let words = Trees.Trie.get_all_words t in
     assert_equal (List.length words) 3;
@@ -55,20 +81,28 @@ let test_trie = "Trie" >:::
 
 let test_red_black_tree = "Red Black Tree" >:::
 [
-  "insert and member" >:: (fun () ->
-    let t = Trees.RedBlack.insert 5 Trees.RedBlack.Leaf in
-    let t = Trees.RedBlack.insert 3 t in
-    let t = Trees.RedBlack.insert 8 t in
+  "insert and member" >:: (fun _ ->
+    let t = Trees.RedBlack.build [5; 3; 8; 1; 4; 7; 10] in
     assert_bool "Should contain 5" (Trees.RedBlack.member 5 t);
     assert_bool "Should contain 3" (Trees.RedBlack.member 3 t);
     assert_bool "Should contain 8" (Trees.RedBlack.member 8 t);
     assert_bool "Should not contain 6" (not (Trees.RedBlack.member 6 t));
   );
+
+  "delete" >:: (fun _ ->
+    let t = Trees.RedBlack.build [5; 3; 8; 1; 4; 7; 10] in
+    let t' = Trees.RedBlack.delete 5 t in
+    assert_bool "Should not contain 5" (not (Trees.RedBlack.member 5 t'));
+    assert_bool "Should still contain 8" (Trees.RedBlack.member 8 t'));
+
+  "inorder traversal" >:: (fun _ ->
+    let t = Trees.RedBlack.build [5; 3; 8; 1; 4; 7; 10] in
+    assert_equal (Trees.RedBlack.inorder t) [1; 3; 4; 5; 7; 8; 10]);
 ]
 
 let test_splay_tree = "Splay Tree" >:::
 [
-  "insert and member" >:: (fun () ->
+  "insert and member" >:: (fun _ ->
     let t = Trees.Splay.build [5; 3; 8; 1; 4; 7; 10] in
     assert_bool "Should contain 5" (Trees.Splay.member 5 t);
     assert_bool "Should contain 1" (Trees.Splay.member 1 t);
@@ -76,20 +110,20 @@ let test_splay_tree = "Splay Tree" >:::
     assert_bool "Should not contain 6" (not (Trees.Splay.member 6 t));
   );
   
-  "delete" >:: (fun () ->
+  "delete" >:: (fun _ ->
     let t = Trees.Splay.build [5; 3; 8; 1; 4; 7; 10] in
     let t' = Trees.Splay.delete 5 t in
     assert_bool "Should not contain 5" (not (Trees.Splay.member 5 t'));
     assert_bool "Should still contain 8" (Trees.Splay.member 8 t'));
   
-  "inorder traversal" >:: (fun () ->
+  "inorder traversal" >:: (fun _ ->
     let t = Trees.Splay.build [5; 3; 8; 1; 4; 7; 10] in
     assert_equal (Trees.Splay.inorder t) [1; 3; 4; 5; 7; 8; 10]);
 ]
 
 let test_treap = "Treap" >:::
 [
-  "insert and member" >:: (fun () ->
+  "insert and member" >:: (fun _ ->
     let t = Trees.Treap.build [5; 3; 8; 1; 4; 7; 10] in
     assert_bool "Should contain 5" (Trees.Treap.member 5 t);
     assert_bool "Should contain 1" (Trees.Treap.member 1 t);
@@ -97,20 +131,20 @@ let test_treap = "Treap" >:::
     assert_bool "Should not contain 6" (not (Trees.Treap.member 6 t));
   );
   
-  "delete" >:: (fun () ->
+  "delete" >:: (fun _ ->
     let t = Trees.Treap.build [5; 3; 8; 1; 4; 7; 10] in
     let t' = Trees.Treap.delete 5 t in
     assert_bool "Should not contain 5" (not (Trees.Treap.member 5 t'));
     assert_bool "Should still contain 8" (Trees.Treap.member 8 t'));
   
-  "inorder traversal" >:: (fun () ->
+  "inorder traversal" >:: (fun _ ->
     let t = Trees.Treap.build [5; 3; 8; 1; 4; 7; 10] in
     assert_equal (Trees.Treap.inorder t) [1; 3; 4; 5; 7; 8; 10]);
 ]
 
 let test_segment_tree = "Segment Tree" >:::
 [
-  "range sum" >:: (fun () ->
+  "range sum" >:: (fun _ ->
     let arr = [|1; 3; 5; 7; 9; 11|] in
     let seg_tree = Trees.SegmentTree.sum_segment_tree arr in
     assert_equal (Trees.SegmentTree.query seg_tree 0 2) 9;
@@ -118,7 +152,7 @@ let test_segment_tree = "Segment Tree" >:::
     assert_equal (Trees.SegmentTree.query seg_tree 0 5) 36;
   );
   
-  "update" >:: (fun () ->
+  "update" >:: (fun _ ->
     let arr = [|1; 3; 5; 7; 9; 11|] in
     let seg_tree = Trees.SegmentTree.sum_segment_tree arr in
     let _ = Trees.SegmentTree.update seg_tree 2 10 in
@@ -126,7 +160,7 @@ let test_segment_tree = "Segment Tree" >:::
     assert_equal (Trees.SegmentTree.query seg_tree 1 4) 29;
   );
   
-  "min query" >:: (fun () ->
+  "min query" >:: (fun _ ->
     let arr = [|5; 2; 8; 1; 9; 3|] in
     let seg_tree = Trees.SegmentTree.min_segment_tree arr in
     assert_equal (Trees.SegmentTree.query seg_tree 0 2) 2;
@@ -136,20 +170,20 @@ let test_segment_tree = "Segment Tree" >:::
 
 let test_fenwick_tree = "Fenwick Tree" >:::
 [
-  "prefix sum" >:: (fun () ->
+  "prefix sum" >:: (fun _ ->
     let ft = Trees.FenwickTree.of_list [3; 2; -1; 6; 5; 4] in
     assert_equal (Trees.FenwickTree.prefix_sum ft 0) 3;
     assert_equal (Trees.FenwickTree.prefix_sum ft 2) 4;
     assert_equal (Trees.FenwickTree.prefix_sum ft 5) 19;
   );
   
-  "range sum" >:: (fun () ->
+  "range sum" >:: (fun _ ->
     let ft = Trees.FenwickTree.of_list [3; 2; -1; 6; 5; 4] in
     assert_equal (Trees.FenwickTree.range_sum ft 1 3) 7;
     assert_equal (Trees.FenwickTree.range_sum ft 2 5) 14;
   );
   
-  "update" >:: (fun () ->
+  "update" >:: (fun _ ->
     let ft = Trees.FenwickTree.of_list [3; 2; -1; 6; 5; 4] in
     Trees.FenwickTree.update ft 2 5;
     assert_equal (Trees.FenwickTree.prefix_sum ft 2) 9;
@@ -159,13 +193,13 @@ let test_fenwick_tree = "Fenwick Tree" >:::
 
 let test_union_find = "Union Find" >:::
 [
-  "connected components" >:: (fun () ->
+  "connected components" >:: (fun _ ->
     let edges = [(0, 1); (1, 2); (3, 4); (5, 6); (6, 7); (8, 9)] in
     let num_components = Trees.UnionFind.connected_components edges 10 in
     assert_equal num_components 4;
   );
-  
-  "union and find" >:: (fun () ->
+
+  "union and find" >:: (fun _ ->
     let uf = Trees.UnionFind.create 10 in
     ignore (Trees.UnionFind.union uf 0 1);
     ignore (Trees.UnionFind.union uf 1 2);
@@ -176,9 +210,50 @@ let test_union_find = "Union Find" >:::
   );
 ]
 
+let test_btree = "B-Tree" >:::
+[
+  "insert and search" >:: (fun _ ->
+    let bt = Trees.BTree.create 3 in
+    Trees.BTree.insert bt 10 10;
+    Trees.BTree.insert bt 20 20;
+    Trees.BTree.insert bt 5 5;
+    Trees.BTree.insert bt 15 15;
+    assert_equal (Trees.BTree.search bt 10) (Some 10);
+    assert_equal (Trees.BTree.search bt 20) (Some 20);
+    assert_equal (Trees.BTree.search bt 5) (Some 5);
+    assert_equal (Trees.BTree.search bt 100) None);
+]
+
+let test_suffix_tree = "Suffix Tree" >:::
+[
+  "contains" >:: (fun _ ->
+    let st = Trees.SuffixTree.create "banana" in
+    assert_bool "Should contain 'ana'" (Trees.SuffixTree.contains st "ana");
+    assert_bool "Should contain 'ban'" (Trees.SuffixTree.contains st "ban");
+    assert_bool "Should contain 'a'" (Trees.SuffixTree.contains st "a");
+    assert_bool "Should not contain 'xyz'" (not (Trees.SuffixTree.contains st "xyz")));
+]
+
+let test_leftist_tree = "Leftist Tree" >:::
+[
+  "insert and find_min" >:: (fun _ ->
+    let t = Trees.LeftistTree.of_list [5; 3; 8; 1; 4] in
+    assert_equal (Trees.LeftistTree.find_min t) 1);
+
+  "delete_min" >:: (fun _ ->
+    let t = Trees.LeftistTree.of_list [5; 3; 8; 1; 4] in
+    let t' = Trees.LeftistTree.delete_min t in
+    assert_equal (Trees.LeftistTree.find_min t') 3);
+
+  "heapsort" >:: (fun _ ->
+    let sorted = Trees.LeftistTree.heapsort [5; 3; 8; 1; 4; 7; 10] in
+    assert_equal sorted [1; 3; 4; 5; 7; 8; 10]);
+]
+
 let _ = run_test_tt_main (
   "Tree data structures" >:::
   [
+    test_bst;
     test_avl_tree;
     test_trie;
     test_red_black_tree;
@@ -187,5 +262,8 @@ let _ = run_test_tt_main (
     test_segment_tree;
     test_fenwick_tree;
     test_union_find;
+    test_btree;
+    test_suffix_tree;
+    test_leftist_tree;
   ]
 )

@@ -4,7 +4,7 @@ module AVL = struct
   type 'a tree = 'a Avl_tree.tree =
     | Empty
     | Node of 'a * 'a tree * 'a tree * int
-  
+
   let empty = Avl_tree.Empty
   let insert = Avl_tree.insert
   let delete = Avl_tree.delete
@@ -17,10 +17,10 @@ end
 
 module BST = struct
   type 'a tree = 'a Binary_search_tree.tree =
-    | Leaf
+    | Empty
     | Node of 'a tree * 'a * 'a tree
-  
-  let leaf = Binary_search_tree.leaf
+
+  let empty = Binary_search_tree.empty
   let node = Binary_search_tree.node
   let insert = Binary_search_tree.insert
   let delete = Binary_search_tree.delete
@@ -28,6 +28,9 @@ module BST = struct
   let min_value = Binary_search_tree.min_value
   let max_value = Binary_search_tree.max_value
   let height = Binary_search_tree.height
+  let inorder = Binary_search_tree.inorder
+  let preorder = Binary_search_tree.preorder
+  let postorder = Binary_search_tree.postorder
   let build = Binary_search_tree.build
 end
 
@@ -35,20 +38,28 @@ module RedBlack = struct
   type color = Red_black_tree.color =
     | Red
     | Black
-  
+
   type 'a tree = 'a Red_black_tree.tree =
-    | Leaf
+    | Empty
     | Node of color * 'a * 'a tree * 'a tree
-  
+
+  let empty = Red_black_tree.empty
   let insert = Red_black_tree.insert
+  let delete = Red_black_tree.delete
   let member = Red_black_tree.member
+  let inorder = Red_black_tree.inorder
+  let preorder = Red_black_tree.preorder
+  let postorder = Red_black_tree.postorder
+  let build = Red_black_tree.build
+  let height = Red_black_tree.height
+  let black_height = Red_black_tree.black_height
 end
 
 module Splay = struct
   type 'a tree = 'a Splay_tree.tree =
     | Empty
     | Node of 'a tree * 'a * 'a tree
-  
+
   let insert = Splay_tree.insert
   let delete = Splay_tree.delete
   let member = Splay_tree.member
@@ -58,10 +69,10 @@ module Splay = struct
 end
 
 module Treap = struct
-  type 'a tree = 'a Treap.tree =
+  type 'a tree = 'a Treap.treap =
     | Empty
     | Node of 'a * int * 'a tree * 'a tree
-  
+
   let insert = Treap.insert
   let delete = Treap.delete
   let member = Treap.member
@@ -74,7 +85,7 @@ end
 
 module Trie = struct
   type trie = Trie.trie
-  
+
   let empty = Trie.empty
   let insert = Trie.insert
   let search = Trie.search
@@ -88,7 +99,7 @@ end
 
 module SegmentTree = struct
   type 'a t = 'a Segment_tree.t
-  
+
   let build = Segment_tree.build
   let query = Segment_tree.query
   let update = Segment_tree.update
@@ -101,7 +112,7 @@ end
 
 module FenwickTree = struct
   type t = Fenwick_tree.t
-  
+
   let create = Fenwick_tree.create
   let create_empty = Fenwick_tree.create_empty
   let prefix_sum = Fenwick_tree.prefix_sum
@@ -119,20 +130,9 @@ module BTree = struct
     key: 'a;
     value: 'a;
   }
-  
-  type 'a node = 'a Btree.node = {
-    entries: 'a entry array;
-    mutable n_entries: int;
-    mutable children: 'a btree array option;
-  }
-  
-  and 'a btree = 'a Btree.btree = 'a node option
-  
-  type 'a t = 'a Btree.t = {
-    order: int;
-    mutable root: 'a btree;
-  }
-  
+  type 'a node = 'a Btree.node
+  type 'a t = 'a Btree.t
+
   let create = Btree.create
   let search = Btree.search
   let insert = Btree.insert
@@ -141,9 +141,8 @@ end
 
 module SuffixTree = struct
   type node = Suffix_tree.node
-  type edge = Suffix_tree.edge
   type t = Suffix_tree.t
-  
+
   let create = Suffix_tree.create
   let contains = Suffix_tree.contains
   let find_all = Suffix_tree.find_all
@@ -152,7 +151,7 @@ end
 
 module UnionFind = struct
   type t = Union_find.t
-  
+
   let create = Union_find.create
   let find = Union_find.find
   let union = Union_find.union
@@ -163,4 +162,23 @@ module UnionFind = struct
   let has_cycle = Union_find.has_cycle
   let kruskal = Union_find.kruskal
   let connected_components = Union_find.connected_components
+end
+
+module LeftistTree = struct
+  type 'a t = 'a Leftist_tree.t =
+    | Empty
+    | Node of 'a t * 'a * 'a t * int
+
+  let empty = Leftist_tree.empty
+  let is_empty = Leftist_tree.is_empty
+  let singleton = Leftist_tree.singleton
+  let merge = Leftist_tree.merge
+  let insert = Leftist_tree.insert
+  let get_min = Leftist_tree.get_min
+  let find_min = Leftist_tree.find_min
+  let delete_min = Leftist_tree.delete_min
+  let extract_min = Leftist_tree.extract_min
+  let of_list = Leftist_tree.of_list
+  let to_sorted_list = Leftist_tree.to_sorted_list
+  let heapsort = Leftist_tree.heapsort
 end

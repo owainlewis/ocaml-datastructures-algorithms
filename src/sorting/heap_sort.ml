@@ -1,7 +1,7 @@
 (* Heap Sort Implementation *)
 
 (* Heapify a subtree rooted at index i, maintaining max-heap property *)
-let heapify arr size i =
+let rec heapify arr size i =
   let largest = ref i in
   let left = 2 * i + 1 in
   let right = 2 * i + 2 in
@@ -34,27 +34,27 @@ let build_heap arr =
   done
 
 (* Heap sort implementation for arrays (in-place) *)
-let sort arr =
+let sort_array arr =
   let n = Array.length arr in
-  
+
   (* Build max heap *)
   build_heap arr;
-  
+
   (* Extract elements one by one from heap *)
   for i = n - 1 downto 1 do
     (* Move current root to end *)
     let temp = arr.(0) in
     arr.(0) <- arr.(i);
     arr.(i) <- temp;
-    
+
     (* Heapify the reduced heap *)
     heapify arr i 0
   done;
-  
+
   arr
 
 (* Heap sort implementation for lists *)
-let sort_list lst =
+let sort lst =
   let arr = Array.of_list lst in
-  let sorted = sort arr in
+  let sorted = sort_array arr in
   Array.to_list sorted

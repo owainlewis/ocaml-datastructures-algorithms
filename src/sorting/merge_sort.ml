@@ -33,7 +33,7 @@ let sort_array arr =
   let len = Array.length arr in
   let aux = Array.make len arr.(0) in
   
-  let rec merge_arrays src dest start mid ending =
+  let merge_arrays src dest start mid ending =
     let i = ref start in
     let j = ref mid in
     let k = ref start in

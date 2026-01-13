@@ -39,7 +39,7 @@ let rec insert key = function
       if key < k then
         let new_left = insert key left in
         match new_left with
-        | Node(k', p', _, _) when p' > p ->
+        | Node(_, p', _, _) when p' > p ->
             (* New node has higher priority, rotate right *)
             rotate_right (Node(k, p, new_left, right))
         | _ ->
@@ -47,7 +47,7 @@ let rec insert key = function
       else if key > k then
         let new_right = insert key right in
         match new_right with
-        | Node(k', p', _, _) when p' > p ->
+        | Node(_, p', _, _) when p' > p ->
             (* New node has higher priority, rotate left *)
             rotate_left (Node(k, p, left, new_right))
         | _ ->
